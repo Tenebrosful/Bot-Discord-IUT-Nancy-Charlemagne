@@ -1,0 +1,20 @@
+{
+  "name": "bot-discord-iut-nancy-charlemagne",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne.git"
+  },
+  "keywords": [],
+  "author": "Tenebrosful",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne/issues"
+  },
+  "homepage": "https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne#readme"
+}
