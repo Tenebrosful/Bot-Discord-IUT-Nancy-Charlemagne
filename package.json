@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne/issues"
   },
-  "homepage": "https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne#readme"
+  "homepage": "https://github.com/Tenebrosful/Bot-Discord-IUT-Nancy-Charlemagne#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
 }
