@@ -44,6 +44,7 @@ module.exports = {
             )
             .setTimestamp();
 
-        await message.channel.send(resEmbed);
+        message.channel.send(resEmbed);
+        message.delete({reason: 'Suppression du message de la commande'});
     }
 };
