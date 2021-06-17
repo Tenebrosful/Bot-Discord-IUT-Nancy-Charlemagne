@@ -21,12 +21,16 @@ module.exports = {
 
         if (!command) return;
 
+        if (command.ownerOnly && message.author.id !== message.guild.ownerID) { message.lineReply("Seul le propriétaire du serveur peut effectuer cette commande."); return; }
+
         try {
-            await command.execute(message, args);
-            message.delete();
+            console.log(command.name, message.author.username);
+            message.channel.startTyping();
+            await command.execute(message, args, config);
+            message.channel.stopTyping();
         } catch (error) {
             console.error(error);
-            message.reply('there was an error trying to execute that command!');
+            message.channel.send('<@853950214628835380> Vérifie la console car la commande vient de bugger :eyes:');
         }
     }
 }

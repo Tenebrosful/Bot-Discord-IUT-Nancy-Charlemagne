@@ -8,7 +8,7 @@ module.exports = {
      * @param {Discord.Client} client 
      */
     execute(client, config) {
+        console.log('Ready');
         client.user.setPresence({status: 'idle', activity: {name: "Soon™ (Un jour peut être)", type: 'LISTENING'}})
-        console.log(config.commands);
     }
 }
