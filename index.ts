@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { Intents } from 'discord.js';
 import { Client } from '@typeit/discord';
-import * as config from './config/bot.json';
+import * as config from './configs/bot.json';
 
 async function start() {
     const client = new Client({
@@ -11,7 +11,7 @@ async function start() {
             Intents.FLAGS.GUILD_MESSAGE_REACTIONS
         ],
         classes: [
-            `${__dirname}/command/*.ts`
+            `${__dirname}/commands/*.ts`
         ],
         slashGuilds: ["753171392450527282"]
     });
