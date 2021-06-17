@@ -12,7 +12,7 @@ module.exports = {
     async execute(message, args) {
         const guild = message.guild;
         const resEmbed = new Discord.MessageEmbed()
-            .setColor('#000')
+            .setColor('#DD131E')
             .setTitle('Informations du Serveur')
             .addFields(
                 {
