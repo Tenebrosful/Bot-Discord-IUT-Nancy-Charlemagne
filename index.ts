@@ -21,7 +21,8 @@ async function start() {
     });
 
     client.on("interaction", (interaction) => {
-        client.executeSlash(interaction);
+        try { client.executeSlash(interaction); } catch(error) { console.error(error) }
+        
     });
 
     await client.login(config.bot_token);
