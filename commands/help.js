@@ -13,7 +13,6 @@ module.exports = {
      * @param {*} config
      */
     execute(message, args, config) {
-        const data = [];
         const { commands, prefix } = config;
         const resEmbed = new Discord.MessageEmbed()
             .setColor('#DD131E')
