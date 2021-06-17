@@ -16,6 +16,7 @@ async function start() {
 
     client.once("ready", async () => {
         await client.clearSlashes();
+        await client.clearSlashes('753171392450527282');
         await client.initSlashes();
     });
 
