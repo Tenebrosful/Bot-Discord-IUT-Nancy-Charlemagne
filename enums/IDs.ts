@@ -15,6 +15,10 @@ export enum Role {
     DUT_AS = '756579565299695636'
 }
 
+export enum Channel {
+    TWITTER = '854010477838073876'
+}
+
 export enum Server {
     MAIN = '753171392450527282'
 }
