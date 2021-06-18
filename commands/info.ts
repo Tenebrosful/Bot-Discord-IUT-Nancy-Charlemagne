@@ -3,7 +3,7 @@ import { MessageEmbed } from "discord.js";
 import { CommandInteraction, DiscordAPIError } from "discord.js";
 
 @Discord()
-export abstract class info {
+abstract class Info {
     @Slash('info')
     @Description('Affiche les informations du serveur')
     private info(
@@ -43,6 +43,6 @@ export abstract class info {
             )
             .setTimestamp();
 
-        interaction.reply({embeds: [resEmbed]});
+        interaction.reply({ embeds: [resEmbed] });
     }
 }

@@ -1,8 +1,8 @@
-import { Discord, Option, Slash } from "@typeit/discord";
+import { Discord, Option, Slash, Description, Guild } from "@typeit/discord";
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 
 @Discord()
-export abstract class sondage {
+abstract class sondage {
     @Slash('sondage')
     private async sondage(
         @Option("Titre", { description: "Message qui sera affiché en tant que sujet du sondage", required: true })
