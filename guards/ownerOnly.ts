@@ -1,7 +1,7 @@
 import { ArgsOf, Guard, GuardFunction } from "@typeit/discord"
 import { CommandInteraction } from "discord.js"
 
-export const OwnerOnly = async (
+export const ownerOnly = async (
     messageOrCommand: CommandInteraction,
     client,
     next
