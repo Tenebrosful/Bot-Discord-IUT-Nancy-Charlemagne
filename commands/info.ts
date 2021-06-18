@@ -1,6 +1,7 @@
 import { Description, Discord, Option, Slash } from "@typeit/discord";
 import { MessageEmbed } from "discord.js";
 import { CommandInteraction, DiscordAPIError } from "discord.js";
+import { Role } from "../enums/IDs";
 
 @Discord()
 abstract class Info {
@@ -17,12 +18,12 @@ abstract class Info {
                 {
                     name: 'Membres',
                     value: `
-                        <@&753182939352793138> : \`${guild.roles.resolve('753182939352793138').members.size}\`
-                        <@&767999978819420161> : \`${guild.roles.resolve('767999978819420161').members.size}\`
-                        <@&753181438903320586> : \`${guild.roles.resolve('753181438903320586').members.size}\`
-                        <@&753555303265730590> : \`${guild.roles.resolve('753555303265730590').members.size}\`
-                        <@&753184280636686356> : \`${guild.roles.resolve('753184280636686356').members.size}\`
-                        <@&786941679622029362> : \`${guild.roles.resolve('786941679622029362').members.size}\`
+                        <@&${Role.ADMIN}> : \`${guild.roles.resolve(Role.ADMIN).members.size}\`
+                        <@&${Role.SERVER_BOOSTER}> : \`${guild.roles.resolve(Role.SERVER_BOOSTER).members.size}\`
+                        <@&${Role.ENSEIGNANT}> : \`${guild.roles.resolve(Role.ENSEIGNANT).members.size}\`
+                        <@&${Role.DÉLÉGUÉ}> : \`${guild.roles.resolve(Role.DÉLÉGUÉ).members.size}\`
+                        <@&${Role.ÉTUDIANT}> : \`${guild.roles.resolve(Role.ÉTUDIANT).members.size}\`
+                        <@&${Role.COMPTE_SECONDAIRE}> : \`${guild.roles.resolve(Role.COMPTE_SECONDAIRE).members.size}\`
                         Total : \`${guild.memberCount}\`
                            `,
                     inline: true
@@ -30,12 +31,12 @@ abstract class Info {
                 {
                     name: 'Promos',
                     value: `
-                        <@&756579988265893908> : \`${guild.roles.resolve('756579988265893908').members.size}\`
-                        <@&756579864416485377> : \`${guild.roles.resolve('756579864416485377').members.size}\`
-                        <@&756578998120611940> : \`${guild.roles.resolve('756578998120611940').members.size}\`
-                        <@&756579307597463632> : \`${guild.roles.resolve('756579307597463632').members.size}\`
-                        <@&756579488418103396> : \`${guild.roles.resolve('756579488418103396').members.size}\`
-                        <@&756579565299695636> : \`${guild.roles.resolve('756579565299695636').members.size}\`
+                        <@&${Role.LP_ACORS}> : \`${guild.roles.resolve(Role.LP_ACORS).members.size}\`
+                        <@&${Role.LP_AFTER}> : \`${guild.roles.resolve(Role.LP_AFTER).members.size}\`
+                        <@&${Role.LP_CIASIE}> : \`${guild.roles.resolve(Role.LP_CIASIE).members.size}\`
+                        <@&${Role.DUT_1A}> : \`${guild.roles.resolve(Role.DUT_1A).members.size}\`
+                        <@&${Role.DUT_2A}> : \`${guild.roles.resolve(Role.DUT_2A).members.size}\`
+                        <@&${Role.DUT_AS}> : \`${guild.roles.resolve(Role.DUT_AS).members.size}\`
                            `,
                     inline: true
                 },
