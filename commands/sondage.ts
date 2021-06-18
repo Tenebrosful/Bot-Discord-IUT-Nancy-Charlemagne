@@ -4,6 +4,7 @@ import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 @Discord()
 abstract class sondage {
     @Slash('sondage')
+    @Description("Créé un sondage")
     private async sondage(
         @Option("Titre", { description: "Message qui sera affiché en tant que sujet du sondage", required: true })
         title: string,
