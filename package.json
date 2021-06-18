@@ -2,9 +2,9 @@
   "name": "bot-discord-iut-nancy-charlemagne",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node ."
   },
   "repository": {
     "type": "git",
