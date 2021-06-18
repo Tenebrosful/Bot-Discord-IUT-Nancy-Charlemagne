@@ -1,4 +1,3 @@
-const { Console } = require('console');
 const Discord = require('discord.js');
 const fs = require('fs');
 
@@ -54,7 +53,7 @@ module.exports = {
             resEmbed.setImage(tweet.extended_entities?.media?.[0]?.media_url || tweet.extended_tweet?.extended_entities?.media?.[0]?.media_url || tweet.retweeted_status?.extended_tweet?.extended_entities?.media?.[0]?.media_url);
         }
 
-        await channel.send(resEmbed);
+        await channel.send({embeds: [resEmbed]});
         channel.stopTyping();
     }
 }

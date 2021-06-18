@@ -1,12 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-require('discord-reply');
 const Twit = require('twit');
 
-const botConfig = require('./config/bot.json');
-const twitterConfig = require('./config/twitter.json');
+const botConfig = require('./configs/bot.json');
+const twitterConfig = require('./configs/twitter.json');
 
-const client = new Discord.Client();
+const client = new Discord.Client({intents: ['GUILDS']});
 
 loadTwitterEvents(setupTwitter());
 
