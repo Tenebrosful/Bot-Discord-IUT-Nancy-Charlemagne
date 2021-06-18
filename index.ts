@@ -19,6 +19,7 @@ async function start() {
         await client.clearSlashes();
         await client.clearSlashes(Server.MAIN);
         await client.initSlashes();
+        console.log('Ready !');
     });
 
     client.on("interaction", (interaction) => {
@@ -27,8 +28,6 @@ async function start() {
     });
 
     await client.login(config.bot_token);
-
-    console.log('Ready !');
 }
 
 start();
