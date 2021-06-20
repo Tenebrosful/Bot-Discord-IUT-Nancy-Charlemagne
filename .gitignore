@@ -3,8 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-configs/
-
 # User-specific files
 *.rsuser
 *.suo
@@ -350,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+configs/
+configs/bot.json
+configs/twitter.json
