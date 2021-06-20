@@ -4,8 +4,10 @@ import { Client } from '@typeit/discord';
 import * as config from './configs/bot.json';
 import { Server } from './enums/IDs';
 
+export let SingletonClient: Client;
+
 async function start() {
-    const client = new Client({
+    SingletonClient = new Client({
         intents: [
             Intents.ALL
         ],
@@ -15,19 +17,19 @@ async function start() {
         slashGuilds: [Server.MAIN]
     });
 
-    client.once("ready", async () => {
         await client.clearSlashes();
         await client.clearSlashes(Server.MAIN);
         await client.initSlashes();
+    SingletonClient.once("ready", async () => {
         console.log('Ready !');
     });
 
-    client.on("interaction", (interaction) => {
         try { client.executeSlash(interaction); } catch(error) { console.error(error) }
         
+    SingletonClient.on("interaction", (interaction) => {
     });
 
-    await client.login(config.bot_token);
+    await SingletonClient.login(config.bot_token);
 }
 
 start();
