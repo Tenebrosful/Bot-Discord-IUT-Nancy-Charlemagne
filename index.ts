@@ -56,6 +56,8 @@ function logInteraction(interaction: Interaction) {
             log += `\t${(<CommandInteraction>interaction).commandName}`;
             break;
         case 'MESSAGE_COMPONENT':
+            if (interaction.isButton)
+                log += `\t${(<ButtonInteraction>interaction).customID}`;
             break;
         case 'PING':
             break;
