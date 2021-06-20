@@ -17,10 +17,8 @@ async function start() {
         ]
     });
 
-        await client.clearSlashes();
-        await client.clearSlashes(Server.MAIN);
-        await client.initSlashes();
     SingletonClient.once("ready", async () => {
+        try { await SingletonClient.initSlashes(); } catch (error) { console.log(error) }
         console.log('Ready !');
     });
 
