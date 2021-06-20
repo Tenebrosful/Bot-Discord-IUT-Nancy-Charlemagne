@@ -27,7 +27,7 @@ abstract class Test {
             .setCustomID('testButton2');
 
         const button3 = new MessageButton()
-            .setLabel('Buttons')
+            .setLabel('Boutons')
             .setStyle('SUCCESS')
             .setEmoji('👀')
             .setCustomID('testButton3');
