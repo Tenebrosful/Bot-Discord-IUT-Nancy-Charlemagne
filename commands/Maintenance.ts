@@ -29,4 +29,25 @@ abstract class Maintenance {
         category.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`);
 
     }
+
+    @Slash('purgeCategorie')
+    @Description("Clone et supprime la catégorie afin de supprimer son contenu")
+    private async purgeCategorie(interaction: CommandInteraction) {
+        interaction.defer({ ephemeral: true });
+
+        const categorie = (<TextChannel>interaction.channel).parent;
+
+        if (!categorie) { interaction.editReply("Ce salon n'a pas de catégorie."); return; }
+
+        const channels = categorie.children;
+
+        const newCategorie = await categorie.clone({ reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
+
+        channels.forEach(async channel => {
+            (await channel.clone()).setParent(newCategorie, { reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
+            channel.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
+        })
+
+        categorie.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
+    }
 }
