@@ -50,4 +50,16 @@ abstract class Maintenance {
 
         categorie.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
     }
+
+    @Slash('forceCommands')
+    @Description("Vide le cache et actualise les commandes du Bot")
+    private async forceCommands(interaction: CommandInteraction) {
+        interaction.defer({ ephemeral: true });
+
+        await SingletonClient.clearSlashes();
+        await SingletonClient.clearSlashes(Server.MAIN);
+        await SingletonClient.initSlashes();
+
+        interaction.editReply({ content: "Le cache a été vidé" });
+    }
 }
