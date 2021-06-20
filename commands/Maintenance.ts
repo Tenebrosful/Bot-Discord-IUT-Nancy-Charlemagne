@@ -1,12 +1,15 @@
-import { Discord, Slash, Group, Description, Permission } from "@typeit/discord";
-import { CommandInteraction, TextChannel } from "discord.js";
-import { Role } from "../enums/IDs";
+import { Discord, Slash, Description, Permission, Guild, Option } from "@typeit/discord";
+import { AwaitMessagesOptions, Collection, CommandInteraction, Message, MessageCollector, Snowflake, TextChannel } from "discord.js";
+import { SingletonClient } from "..";
+import { Role, Server } from "../enums/IDs";
 
 @Discord()
+@Guild(Server.MAIN)
+@Permission(Role.ADMIN, 'ROLE')
+@Permission(Role.STAR, 'ROLE')
 abstract class Maintenance {
     @Slash('purgeChannel')
     @Description("Clone et supprime le salon afin de supprimer son contenu")
-    @Permission(Role.ADMIN, 'ROLE')
     private purgeChannel(interaction: CommandInteraction) {
         const channel = <TextChannel>interaction.channel;
 
