@@ -62,4 +62,51 @@ abstract class Maintenance {
 
         interaction.editReply({ content: "Le cache a été vidé" });
     }
+
+    @Slash('deleteMessages')
+    @Description('Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut.')
+    private async deleteMessages(
+        @Option('nombre', { description: "Nombre de message à effacer" })
+        nbrMessage: number,
+        @Option('jours', { description: "Ancienneté des messages à supprimer en jours" })
+        jours: number,
+        @Option('heures', { description: "Ancienneté des messages à supprimer en heures" })
+        heures: number,
+        @Option('minutes', { description: "Ancienneté des messages à supprimer en minutes" })
+        minutes: number,
+        interaction: CommandInteraction
+    ) {
+        interaction.defer();
+
+        let listMessages: Collection<Snowflake, Message>;
+
+        if (jours || heures || minutes) {
+            let time: number = 0;
+
+            if (jours) time += jours * 8.64e+7;
+            if (heures) time += heures * 3.6e+6;
+            if (minutes) time += minutes * 60000;
+
+            let options: AwaitMessagesOptions = {
+                time
+            }
+
+            if (nbrMessage)
+                options.max = nbrMessage
+
+            const maxTimeStamp = new Date(Date.now() - time);
+
+            listMessages = (await (<TextChannel>interaction.channel).messages.fetch()).filter(message => message.createdAt >= maxTimeStamp);
+        }
+
+        const messagesSupprimes = await (<TextChannel>interaction.channel).bulkDelete((listMessages || nbrMessage || 100), true);
+        const nbrMessagesRestant = (listMessages?.size || nbrMessage || 100) - messagesSupprimes.size;
+
+        let messageReply: string = `${messagesSupprimes.size} ${messagesSupprimes.size > 1 ? "messages ont été supprimés" : "message a été supprimé"}.`
+
+        if (nbrMessagesRestant !== 0)
+            messageReply += ` ${nbrMessagesRestant} ${nbrMessagesRestant > 1 ? "messages n'ont pas pu être supprimés" : "message n'a pas pu être supprimé"} à cause de la limitation de 2 semaines de Discord. Pour supprimer tout un salon vous pouvez utiliser \`/purgechannel\`.`;
+
+        interaction.editReply({ content: messageReply })
+    }
 }
