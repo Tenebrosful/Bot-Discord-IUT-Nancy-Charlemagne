@@ -16,4 +16,17 @@ abstract class Maintenance {
         channel.clone({ reason: `Purge du salon demandé par ${interaction.user.username}` });
         channel.delete(`Purge du salon demandé par ${interaction.user.username}`);
     }
+
+    @Slash('supprimerCategorie')
+    @Description("Supprime la catégorie parente ainsi que tous ses enfants")
+    private supprimerCategorie(interaction: CommandInteraction) {
+        const category = (<TextChannel>interaction.channel).parent;
+
+        if (!category) { interaction.editReply({ content: "Ce salon n'a pas de catégorie." }); return; }
+
+        category.children.forEach(channel => channel.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`));
+
+        category.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`);
+
+    }
 }
