@@ -12,9 +12,9 @@ async function start() {
             Intents.ALL
         ],
         classes: [
-            `${__dirname}/commands/*.ts`
-        ],
-        slashGuilds: [Server.MAIN]
+            `${__dirname}/commands/*.ts`,
+            `${__dirname}/events/discord/*.ts`
+        ]
     });
 
         await client.clearSlashes();
