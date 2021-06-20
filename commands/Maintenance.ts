@@ -11,6 +11,8 @@ abstract class Maintenance {
     @Slash('purgeChannel')
     @Description("Clone et supprime le salon afin de supprimer son contenu")
     private purgeChannel(interaction: CommandInteraction) {
+        interaction.defer();
+
         const channel = <TextChannel>interaction.channel;
 
         channel.clone({ reason: `Purge du salon demandé par ${interaction.user.username}` });
@@ -20,6 +22,8 @@ abstract class Maintenance {
     @Slash('supprimerCategorie')
     @Description("Supprime la catégorie parente ainsi que tous ses enfants")
     private supprimerCategorie(interaction: CommandInteraction) {
+        interaction.defer({ ephemeral: true });
+
         const category = (<TextChannel>interaction.channel).parent;
 
         if (!category) { interaction.editReply({ content: "Ce salon n'a pas de catégorie." }); return; }

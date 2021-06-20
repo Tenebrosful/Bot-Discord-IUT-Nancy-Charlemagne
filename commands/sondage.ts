@@ -16,6 +16,8 @@ abstract class sondage {
         allowNeutralVote: boolean = true,
         interaction: CommandInteraction
     ) {
+        interaction.defer();
+
         const resEmbed = new MessageEmbed()
             .setColor("#DD131E")
             .setAuthor(interaction.user.username, interaction.user.avatarURL({ dynamic: true }))
@@ -26,7 +28,7 @@ abstract class sondage {
         if (desc) { resEmbed.setDescription(desc) }
         if (imageurl) { resEmbed.setImage(imageurl) }
 
-        await interaction.reply({ embeds: [resEmbed] });
+        await interaction.editReply({ embeds: [resEmbed] });
 
         const reply = await <Promise<Message>>interaction.fetchReply();
 

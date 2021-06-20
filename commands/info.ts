@@ -12,6 +12,8 @@ abstract class Info {
     ) {
         if (!interaction.channel || interaction.channel.type === 'dm') { interaction.reply({ content: "Désolé mais je ne peux pas effectuer cette commande en message privé.", ephemeral: true }); return; }
         
+        interaction.defer();
+
         const guild = interaction.guild;
         const resEmbed = new MessageEmbed()
             .setColor('#DD131E')
@@ -46,6 +48,6 @@ abstract class Info {
             )
             .setTimestamp();
 
-        interaction.reply({ embeds: [resEmbed] });
+        interaction.editReply({ embeds: [resEmbed] });
     }
 }
