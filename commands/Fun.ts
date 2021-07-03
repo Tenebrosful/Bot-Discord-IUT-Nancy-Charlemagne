@@ -44,13 +44,13 @@ class pfcProposition {
 abstract class Fun {
     @Slash('pfc')
     @Description("Quoi de plus amusant que jouer à Pierre Feuille Ciseaux avec un robot ?")
-    private pfc(
+    async private pfc(
         @Choices(pfcChoix)
         @Option('Choix', { description: "Votre choix. Si vous ne choisissez pas vous aurez des boutons à disposition pour choisir et jouer" })
         choix: pfcChoix,
         interaction: CommandInteraction
     ) {
-        interaction.defer();
+        await interaction.defer();
 
         if (choix) {
             const choixJoueur = pfcProposition.nameToClass(choix);
