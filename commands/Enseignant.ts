@@ -25,7 +25,7 @@ abstract class Enseignant {
         if (quantite > 10) { interaction.reply({ content: "Désolé cependant vous ne pouvez pas créer plus de 10 salons à la fois.", ephemeral: true }); return; }
         if (duree > 240) { interaction.reply({ content: "Désolé cependant vous ne pouvez créer de salon durant plus de 4 heures.", ephemeral: true }); return; }
 
-        interaction.defer();
+        await interaction.defer();
 
         const guild = interaction.guild;
         const categorie = (<TextChannel>interaction.channel).parent;
@@ -40,7 +40,7 @@ abstract class Enseignant {
         const newSalons = await Promise.all(newSalonsPromise);
 
         newSalons.forEach(async salon => {
-            salon.createOverwrite(interaction.user, { 'MANAGE_CHANNELS': true });
+            salon.permissionOverwrites.create(interaction.user, { 'MANAGE_CHANNELS': true }, {reason: "Permissions données au créateur du salon"});
             setTimeout((salon: VoiceChannel) => {
                 salon.delete(`Suppression du salon temporaire créé par ${interaction.user.username}`);
             }, duree * 60000, salon);
