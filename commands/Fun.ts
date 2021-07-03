@@ -44,7 +44,7 @@ class pfcProposition {
 abstract class Fun {
     @Slash('pfc')
     @Description("Quoi de plus amusant que jouer à Pierre Feuille Ciseaux avec un robot ?")
-    async private pfc(
+    private async pfc(
         @Choices(pfcChoix)
         @Option('Choix', { description: "Votre choix. Si vous ne choisissez pas vous aurez des boutons à disposition pour choisir et jouer" })
         choix: pfcChoix,
