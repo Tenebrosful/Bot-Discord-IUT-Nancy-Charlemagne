@@ -1,4 +1,4 @@
-import { Description, Discord, Option, Slash } from "@typeit/discord";
+import { Description, Discord, Slash } from "@typeit/discord";
 import { MessageEmbed } from "discord.js";
 import { CommandInteraction, DiscordAPIError } from "discord.js";
 import { RoleIDs } from "../enums/IDs";
