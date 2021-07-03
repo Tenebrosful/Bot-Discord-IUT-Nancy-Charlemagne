@@ -1,4 +1,4 @@
-export enum Role {
+export enum RoleIDs {
     STAR = '753181468183887914',
     ADMIN = '753182939352793138',
     BETA_TEST = '754106647198040084',
@@ -15,17 +15,17 @@ export enum Role {
     DUT_AS = '756579565299695636'
 }
 
-export enum Channel {
+export enum ChannelIDs {
     TWITTER = '854010477838073876',
     ADMIN_COMMANDES = '753257616851075193',
     DISCUSSION_GLOBAL_SCOLAIRE = '753557902274461743'
 }
 
-export enum Server {
+export enum ServerIDs {
     MAIN = '753171392450527282'
 }
 
-export enum User {
+export enum UserIDs {
     TENEBROSFUL = '227882902031958016',
     HUGO_BERNARD = '227882902031958016',
     SOUBRANETTE = '294571078121029632'

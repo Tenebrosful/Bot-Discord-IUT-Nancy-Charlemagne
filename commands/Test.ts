@@ -1,12 +1,12 @@
 import { Discord, Slash, Guild, Permission, Description } from "@typeit/discord";
 import { CommandInteraction, MessageButton, MessageActionRow } from "discord.js";
-import { Server, Role } from "../enums/IDs";
+import { ServerIDs, RoleIDs } from "../enums/IDs";
 
 @Discord()
-@Guild(Server.MAIN)
-@Permission(Role.STAR, 'ROLE')
-@Permission(Role.ADMIN, 'ROLE')
-@Permission(Role.BETA_TEST, 'ROLE')
+@Guild(ServerIDs.MAIN)
+@Permission(RoleIDs.STAR, 'ROLE')
+@Permission(RoleIDs.ADMIN, 'ROLE')
+@Permission(RoleIDs.BETA_TEST, 'ROLE')
 abstract class Test {
 
     @Slash('testMessageBouton')

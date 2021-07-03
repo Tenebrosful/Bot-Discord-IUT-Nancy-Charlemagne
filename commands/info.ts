@@ -1,7 +1,7 @@
 import { Description, Discord, Option, Slash } from "@typeit/discord";
 import { MessageEmbed } from "discord.js";
 import { CommandInteraction, DiscordAPIError } from "discord.js";
-import { Role } from "../enums/IDs";
+import { RoleIDs } from "../enums/IDs";
 
 @Discord()
 abstract class Info {
@@ -22,12 +22,12 @@ abstract class Info {
                 {
                     name: 'Membres',
                     value: `
-                        <@&${Role.ADMIN}> : \`${guild.roles.resolve(Role.ADMIN).members.size}\`
-                        <@&${Role.SERVER_BOOSTER}> : \`${guild.roles.resolve(Role.SERVER_BOOSTER).members.size}\`
-                        <@&${Role.ENSEIGNANT}> : \`${guild.roles.resolve(Role.ENSEIGNANT).members.size}\`
-                        <@&${Role.DÉLÉGUÉ}> : \`${guild.roles.resolve(Role.DÉLÉGUÉ).members.size}\`
-                        <@&${Role.ÉTUDIANT}> : \`${guild.roles.resolve(Role.ÉTUDIANT).members.size}\`
-                        <@&${Role.COMPTE_SECONDAIRE}> : \`${guild.roles.resolve(Role.COMPTE_SECONDAIRE).members.size}\`
+                        <@&${RoleIDs.ADMIN}> : \`${guild.roles.resolve(RoleIDs.ADMIN).members.size}\`
+                        <@&${RoleIDs.SERVER_BOOSTER}> : \`${guild.roles.resolve(RoleIDs.SERVER_BOOSTER).members.size}\`
+                        <@&${RoleIDs.ENSEIGNANT}> : \`${guild.roles.resolve(RoleIDs.ENSEIGNANT).members.size}\`
+                        <@&${RoleIDs.DÉLÉGUÉ}> : \`${guild.roles.resolve(RoleIDs.DÉLÉGUÉ).members.size}\`
+                        <@&${RoleIDs.ÉTUDIANT}> : \`${guild.roles.resolve(RoleIDs.ÉTUDIANT).members.size}\`
+                        <@&${RoleIDs.COMPTE_SECONDAIRE}> : \`${guild.roles.resolve(RoleIDs.COMPTE_SECONDAIRE).members.size}\`
                         Total : \`${guild.memberCount}\`
                            `,
                     inline: true
@@ -35,12 +35,12 @@ abstract class Info {
                 {
                     name: 'Promos',
                     value: `
-                        <@&${Role.LP_ACORS}> : \`${guild.roles.resolve(Role.LP_ACORS).members.size}\`
-                        <@&${Role.LP_AFTER}> : \`${guild.roles.resolve(Role.LP_AFTER).members.size}\`
-                        <@&${Role.LP_CIASIE}> : \`${guild.roles.resolve(Role.LP_CIASIE).members.size}\`
-                        <@&${Role.DUT_1A}> : \`${guild.roles.resolve(Role.DUT_1A).members.size}\`
-                        <@&${Role.DUT_2A}> : \`${guild.roles.resolve(Role.DUT_2A).members.size}\`
-                        <@&${Role.DUT_AS}> : \`${guild.roles.resolve(Role.DUT_AS).members.size}\`
+                        <@&${RoleIDs.LP_ACORS}> : \`${guild.roles.resolve(RoleIDs.LP_ACORS).members.size}\`
+                        <@&${RoleIDs.LP_AFTER}> : \`${guild.roles.resolve(RoleIDs.LP_AFTER).members.size}\`
+                        <@&${RoleIDs.LP_CIASIE}> : \`${guild.roles.resolve(RoleIDs.LP_CIASIE).members.size}\`
+                        <@&${RoleIDs.DUT_1A}> : \`${guild.roles.resolve(RoleIDs.DUT_1A).members.size}\`
+                        <@&${RoleIDs.DUT_2A}> : \`${guild.roles.resolve(RoleIDs.DUT_2A).members.size}\`
+                        <@&${RoleIDs.DUT_AS}> : \`${guild.roles.resolve(RoleIDs.DUT_AS).members.size}\`
                            `,
                     inline: true
                 },

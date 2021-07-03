@@ -1,12 +1,12 @@
 import { Discord, Slash, Description, Permission, Guild, Option } from "@typeit/discord";
 import { AwaitMessagesOptions, Collection, CommandInteraction, Message, MessageCollector, Snowflake, TextChannel } from "discord.js";
 import { SingletonClient } from "..";
-import { Role, Server } from "../enums/IDs";
+import { RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
-@Guild(Server.MAIN)
-@Permission(Role.ADMIN, 'ROLE')
-@Permission(Role.STAR, 'ROLE')
+@Guild(ServerIDs.MAIN)
+@Permission(RoleIDs.ADMIN, 'ROLE')
+@Permission(RoleIDs.STAR, 'ROLE')
 abstract class Maintenance {
     @Slash('purgeChannel')
     @Description("Clone et supprime le salon afin de supprimer son contenu")
@@ -61,7 +61,7 @@ abstract class Maintenance {
         interaction.defer({ ephemeral: true });
 
         await SingletonClient.clearSlashes();
-        await SingletonClient.clearSlashes(Server.MAIN);
+        await SingletonClient.clearSlashes(ServerIDs.MAIN);
         await SingletonClient.initSlashes();
 
         interaction.editReply({ content: "Le cache a été vidé" });
