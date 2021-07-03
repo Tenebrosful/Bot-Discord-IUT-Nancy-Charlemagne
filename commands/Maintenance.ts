@@ -80,8 +80,6 @@ abstract class Maintenance {
         minutes: number,
         interaction: CommandInteraction
     ) {
-        interaction.defer();
-
         let listMessages: Collection<Snowflake, Message>;
 
         if (jours || heures || minutes) {
@@ -111,6 +109,6 @@ abstract class Maintenance {
         if (nbrMessagesRestant !== 0)
             messageReply += ` ${nbrMessagesRestant} ${nbrMessagesRestant > 1 ? "messages n'ont pas pu être supprimés" : "message n'a pas pu être supprimé"} à cause de la limitation de 2 semaines de Discord. Pour supprimer tout un salon vous pouvez utiliser \`/purgechannel\`.`;
 
-        interaction.editReply({ content: messageReply })
+        interaction.reply({ content: messageReply })
     }
 }
