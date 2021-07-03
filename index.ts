@@ -13,7 +13,9 @@ async function start() {
         classes: [
             `${__dirname}/commands/*.ts`,
             `${__dirname}/events/discord/*.ts`
-        ]
+        ],
+        botId: "850109914827587605",
+        requiredByDefault: false
     });
 
     SingletonClient.once("ready", async () => {
@@ -23,20 +25,7 @@ async function start() {
 
     SingletonClient.on("interaction", (interaction) => {
         console.log(logInteraction(interaction));
-
-        switch (interaction.type) {
-            case 'APPLICATION_COMMAND':
-                try { SingletonClient.executeSlash(interaction); } catch (error) { console.error(error) }
-                break;
-            case 'MESSAGE_COMPONENT':
-                if (interaction.isButton) {
-                    (<ButtonInteraction>interaction).reply({ content: "Peut être un jour, il y aura une fonction qui pourrait par exemple... remplacer les réactions pour obtenir un rôle en beaucoup plus propre, mais pour l'instant il n'y a rien.", ephemeral: true });
-                } else {
-                    (<MessageComponentInteraction>interaction).reply({ content: "Cette fonctionnalité n'a pas encore été implémenté, désolé :c", ephemeral: true });
-                }
-
-                break;
-        }
+        SingletonClient.executeSlash(interaction);
     });
 
     await SingletonClient.login(config.bot_token);
@@ -51,16 +40,14 @@ export function getHorodateConsole() {
 function logInteraction(interaction: Interaction) {
     let log = `${getHorodateConsole()}\t${interaction.user.username}\t${interaction.type}`
 
-    switch (interaction.type) {
-        case 'APPLICATION_COMMAND':
-            log += `\t${(<CommandInteraction>interaction).commandName}`;
-            break;
-        case 'MESSAGE_COMPONENT':
-            if (interaction.isButton)
-                log += `\t${(<ButtonInteraction>interaction).customID}`;
-            break;
-        case 'PING':
-            break;
+    if (interaction.isCommand())
+        log += `\t${(<CommandInteraction>interaction).commandName}`;
+
+    if (interaction.isMessageComponent()) {
+        log += `\t${interaction.customID}`;
+
+        if (interaction.isSelectMenu())
+            log += `\t${interaction.values}`;
     }
 
     return log;
