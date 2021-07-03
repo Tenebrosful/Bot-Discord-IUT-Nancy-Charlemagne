@@ -1,5 +1,5 @@
 import { Discord, Slash, Description, Permission, Guild, Option } from "@typeit/discord";
-import { AwaitMessagesOptions, Collection, CommandInteraction, Message, MessageCollector, Snowflake, TextChannel } from "discord.js";
+import { AwaitMessagesOptions, Collection, CommandInteraction, Message, Snowflake, TextChannel } from "discord.js";
 import { SingletonClient } from "..";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 
@@ -111,4 +111,19 @@ abstract class Maintenance {
 
         interaction.reply({ content: messageReply })
     }
+
+    @Slash('supprimervocaux')
+    @Description("Supprime tous les salons vocaux de la catégorie")
+    private async supprimervocaux(interaction: CommandInteraction) {
+        const categorie = (<TextChannel>interaction.channel).parent;
+
+        if (!categorie) { interaction.reply({ content: "Ce salon n'a pas de catégorie.", ephemeral: true }); return; }
+
+        interaction.defer();
+
+        await Promise.all(categorie.children.map(salon => { if (salon.type == 'voice') salon.delete(`Suppression des salons vocaux demandé par ${interaction.user.username}`) }));
+
+        interaction.editReply({ content: `Tous les salons vocaux de cette catégorie ont été supprimés !` });
+    }
+
 }
