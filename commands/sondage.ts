@@ -17,7 +17,7 @@ abstract class sondage {
         allowNeutralVote: boolean = true,
         interaction: CommandInteraction
     ) {
-        interaction.defer();
+        await interaction.defer();
 
         const resEmbed = new MessageEmbed()
             .setColor("#DD131E")
@@ -31,7 +31,9 @@ abstract class sondage {
 
         await interaction.editReply({ embeds: [resEmbed] });
 
-        const reply = await <Promise<Message>>interaction.fetchReply();
+        const reply = await interaction.fetchReply();
+        
+        if (reply.type !== "REPLY") return;
 
         await reply.react("👍");
         if (allowNeutralVote) await reply.react("🤔");

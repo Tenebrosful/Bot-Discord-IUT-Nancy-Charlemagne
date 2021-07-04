@@ -3,36 +3,36 @@ import { randomInt } from "crypto";
 import { ButtonInteraction, CommandInteraction, EmojiIdentifierResolvable, MessageActionRow, MessageButton } from "discord.js";
 
 enum pfcChoix {
-    Pierre = "Pierre",
-    Feuille = "Feuille",
-    Ciseaux = "Ciseaux"
+    Pierre = "Rock",
+    Feuille = "Paper",
+    Ciseaux = "Scissors"
 }
 
 enum pfcResultat {
-    GAGNÉ,
-    PERDU,
-    ÉGALITÉ
+    WIN,
+    LOOSE,
+    DRAW
 }
 
 class pfcProposition {
     public static propositions = [
-        new pfcProposition(pfcChoix.Pierre, '🪨', 'pfc-pierre'),
-        new pfcProposition(pfcChoix.Feuille, '🧻', 'pfc-feuille'),
-        new pfcProposition(pfcChoix.Ciseaux, '✂️', 'pfc-ciseaux')
+        new pfcProposition(pfcChoix.Pierre, '🪨', 'pfc-rock'),
+        new pfcProposition(pfcChoix.Feuille, '🧻', 'pfc-paper'),
+        new pfcProposition(pfcChoix.Ciseaux, '✂️', 'pfc-scissors')
     ]
 
-    public nom: pfcChoix;
+    public name: pfcChoix;
     public emoji: EmojiIdentifierResolvable;
-    public buttonCustomID: "pfc-pierre" | "pfc-feuille" | "pfc-ciseaux";
+    public buttonCustomID: "pfc-rock" | "pfc-paper" | "pfc-scissors";
 
-    constructor(nom: pfcChoix, emoji: EmojiIdentifierResolvable, buttonCustomID: "pfc-pierre" | "pfc-feuille" | "pfc-ciseaux") {
-        this.nom = nom;
+    constructor(nom: pfcChoix, emoji: EmojiIdentifierResolvable, buttonCustomID: "pfc-rock" | "pfc-paper" | "pfc-scissors") {
+        this.name = nom;
         this.emoji = emoji;
         this.buttonCustomID = buttonCustomID;
     }
 
     public static nameToClass(nom: string) {
-        return this.propositions.find(proposition => nom === proposition.nom);
+        return this.propositions.find(proposition => nom === proposition.name);
     }
 
     public static buttonCustomIDToClass(buttonCustomID: string) {
@@ -48,45 +48,45 @@ abstract class Fun {
     private async pfc(
         @Choices(pfcChoix)
         @Option('Choix', { description: "Votre choix. Si vous ne choisissez pas vous aurez des boutons à disposition pour choisir et jouer" })
-        choix: pfcChoix,
+        choice: pfcChoix,
         interaction: CommandInteraction
     ) {
         await interaction.defer();
 
-        if (choix) {
-            const choixJoueur = pfcProposition.nameToClass(choix);
-            const choixBot = Fun.pfcPlayBot();
-            const resultat = Fun.isWinPfc(choixJoueur, choixBot);
+        if (choice) {
+            const playerChoice = pfcProposition.nameToClass(choice);
+            const botChoice = Fun.pfcPlayBot();
+            const result = Fun.isWin(playerChoice, botChoice);
 
-            interaction.editReply(Fun.pfcTraitementResultat(choixJoueur, choixBot, resultat))
+            interaction.editReply(Fun.pfcTraitementResultat(playerChoice, botChoice, result))
         } else {
-            const boutonPierre = new MessageButton()
+            const rockButton = new MessageButton()
                 .setLabel("Pierre")
                 .setEmoji('🪨')
                 .setStyle('PRIMARY')
-                .setCustomID('pfc-pierre');
+                .setCustomID('pfc-rock');
 
-            const boutonFeuille = new MessageButton()
+            const paperButton = new MessageButton()
                 .setLabel("Feuille")
                 .setEmoji('🧻')
                 .setStyle('PRIMARY')
-                .setCustomID('pfc-feuille');
+                .setCustomID('pfc-paper');
 
-            const boutonCiseaux = new MessageButton()
+            const scissorButton = new MessageButton()
                 .setLabel("Ciseaux")
                 .setEmoji('✂️')
                 .setStyle('PRIMARY')
-                .setCustomID('pfc-ciseaux');
+                .setCustomID('pfc-scissors');
 
-            const boutonPuit = new MessageButton()
+            const wellButton = new MessageButton()
                 .setLabel("Puit")
                 .setEmoji('❓')
                 .setStyle('PRIMARY')
-                .setCustomID('pfc-puit')
+                .setCustomID('pfc-well')
                 .setDisabled(true);
 
             const buttonRow = new MessageActionRow()
-                .addComponents(boutonPierre, boutonFeuille, boutonCiseaux, boutonPuit);
+                .addComponents(rockButton, paperButton, scissorButton, wellButton);
 
             interaction.editReply({ content: "Ok let's go. 1v1 Pierre Feuille Ciseaux. Vas-y choisis !", components: [buttonRow] });
 
@@ -94,35 +94,35 @@ abstract class Fun {
         }
     }
 
-    @Button('pfc-pierre')
-    @Button('pfc-feuille')
-    @Button('pfc-ciseaux')
+    @Button('pfc-rock')
+    @Button('pfc-paper')
+    @Button('pfc-scissors')
     private async pfcButton(interaction: ButtonInteraction) {
         await interaction.defer();
 
-        const choix = pfcProposition.buttonCustomIDToClass(interaction.customID);
-        const choixBot = Fun.pfcPlayBot();
-        const resultat = Fun.isWinPfc(choix, choixBot);
+        const playerChoice = pfcProposition.buttonCustomIDToClass(interaction.customID);
+        const botChoice = Fun.pfcPlayBot();
+        const result = Fun.isWin(playerChoice, botChoice);
 
-        interaction.editReply(Fun.pfcTraitementResultat(choix, choixBot, resultat));
+        interaction.editReply(Fun.pfcTraitementResultat(playerChoice, botChoice, result));
 
         setTimeout(interaction => { try { interaction.deleteReply() } catch (err) { console.error(err) } }, 30000, interaction);
     }
 
-    private static isWinPfc(joueur: pfcProposition, bot: pfcProposition): pfcResultat {
-        switch (joueur.nom) {
+    private static isWin(playerChoice: pfcProposition, botChoice: pfcProposition): pfcResultat {
+        switch (playerChoice.name) {
             case pfcChoix.Pierre:
-                if (bot.nom === pfcChoix.Ciseaux) return pfcResultat.GAGNÉ;
-                if (bot.nom === pfcChoix.Feuille) return pfcResultat.PERDU;
-                return pfcResultat.ÉGALITÉ;
+                if (botChoice.name === pfcChoix.Ciseaux) return pfcResultat.WIN;
+                if (botChoice.name === pfcChoix.Feuille) return pfcResultat.LOOSE;
+                return pfcResultat.DRAW;
             case pfcChoix.Feuille:
-                if (bot.nom === pfcChoix.Pierre) return pfcResultat.GAGNÉ;
-                if (bot.nom === pfcChoix.Ciseaux) return pfcResultat.PERDU;
-                return pfcResultat.ÉGALITÉ;
+                if (botChoice.name === pfcChoix.Pierre) return pfcResultat.WIN;
+                if (botChoice.name === pfcChoix.Ciseaux) return pfcResultat.LOOSE;
+                return pfcResultat.DRAW;
             case pfcChoix.Ciseaux:
-                if (bot.nom === pfcChoix.Feuille) return pfcResultat.GAGNÉ;
-                if (bot.nom === pfcChoix.Pierre) return pfcResultat.PERDU;
-                return pfcResultat.ÉGALITÉ;
+                if (botChoice.name === pfcChoix.Feuille) return pfcResultat.WIN;
+                if (botChoice.name === pfcChoix.Pierre) return pfcResultat.LOOSE;
+                return pfcResultat.DRAW;
         }
     }
 
@@ -132,12 +132,12 @@ abstract class Fun {
 
     private static pfcTraitementResultat(choix: pfcProposition, choixBot: pfcProposition, resultat: pfcResultat) {
         switch (resultat) {
-            case pfcResultat.GAGNÉ:
-                return { content: `${choixBot.emoji} ${choixBot.nom} ! Well, noob ${choix.emoji} ${choix.nom} need nerf plz...` };
-            case pfcResultat.PERDU:
-                return { content: `${choixBot.emoji} ${choixBot.nom} ! GG NO RE, EZ !` };
-            case pfcResultat.ÉGALITÉ:
-                return { content: `${choixBot.emoji} ${choixBot.nom} ! Ha... Égalité...` };
+            case pfcResultat.WIN:
+                return { content: `${choixBot.emoji} ${choixBot.name} ! Well, noob ${choix.emoji} ${choix.name} need nerf plz...` };
+            case pfcResultat.LOOSE:
+                return { content: `${choixBot.emoji} ${choixBot.name} ! GG NO RE, EZ !` };
+            case pfcResultat.DRAW:
+                return { content: `${choixBot.emoji} ${choixBot.name} ! Ha... Égalité...` };
         }
     }
 }

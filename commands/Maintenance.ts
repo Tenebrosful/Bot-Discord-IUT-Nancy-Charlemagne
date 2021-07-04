@@ -1,13 +1,16 @@
-import { DefaultPermission, Description, Discord, Group, Guild, Option, Permission, Slash } from "@typeit/discord";
-import { AwaitMessagesOptions, Collection, CommandInteraction, Message, Snowflake, TextChannel } from "discord.js";
+import { DefaultPermission, Description, Discord, Group, Guard, Guild, Option, Permission, Slash } from "@typeit/discord";
+import { channel } from "diagnostic_channel";
+import { AwaitMessagesOptions, Collection, CommandInteraction, Message, NewsChannel, Snowflake, TextChannel, ThreadChannel } from "discord.js";
 import { SingletonClient } from "..";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
+import { notDMChannel, notThreadChannel } from "../guards/channelTypeFilter";
 
 @Discord()
 @Guild(ServerIDs.MAIN)
+@Guard(notDMChannel, notThreadChannel)
 @DefaultPermission(false)
-@Permission({id: RoleIDs.ADMIN, type: 'ROLE', permission: true})
-@Permission({id: RoleIDs.STAR, type: 'ROLE', permission: true})
+@Permission({ id: RoleIDs.ADMIN, type: 'ROLE', permission: true })
+@Permission({ id: RoleIDs.STAR, type: 'ROLE', permission: true })
 @Group('Maintenance', "Commandes de maintenance du serveur")
 abstract class Maintenance {
     @Slash('purgeChannel')
@@ -15,7 +18,8 @@ abstract class Maintenance {
     private purgeChannel(interaction: CommandInteraction) {
         interaction.defer();
 
-        const channel = <TextChannel>interaction.channel;
+        // Can't be DMChannel or ThreadChannel with the global Guard
+        const channel = <TextChannel | NewsChannel>interaction.channel;
 
         channel.clone({ reason: `Purge du salon demandé par ${interaction.user.username}` });
         channel.delete(`Purge du salon demandé par ${interaction.user.username}`);
@@ -23,14 +27,16 @@ abstract class Maintenance {
 
     @Slash('supprimerCategorie')
     @Description("Supprime la catégorie parente ainsi que tous ses enfants")
-    private supprimerCategorie(interaction: CommandInteraction) {
-        interaction.defer({ ephemeral: true });
+    private async supprimerCategorie(interaction: CommandInteraction) {
+        await interaction.defer({ ephemeral: true });
 
-        const category = (<TextChannel>interaction.channel).parent;
+        // Can't be DMChannel or ThreadChannel with the global Guard
+        const channel = <TextChannel | NewsChannel>interaction.channel;
+        const category = channel.parent;
 
         if (!category) { interaction.editReply({ content: "Ce salon n'a pas de catégorie." }); return; }
 
-        category.children.forEach(channel => channel.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`));
+        category.children.forEach(c => c.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`));
 
         category.delete(`Suppression de la catégorie ${category.name} demandée par ${interaction.user.username}`);
 
@@ -39,28 +45,30 @@ abstract class Maintenance {
     @Slash('purgeCategorie')
     @Description("Clone et supprime la catégorie afin de supprimer son contenu")
     private async purgeCategorie(interaction: CommandInteraction) {
-        interaction.defer({ ephemeral: true });
+        await interaction.defer({ ephemeral: true });
 
-        const categorie = (<TextChannel>interaction.channel).parent;
+        // Can't be DMChannel or ThreadChannel with the global Guard
+        const channel = <TextChannel | NewsChannel>interaction.channel;
+        const category = channel.parent;
 
-        if (!categorie) { interaction.editReply("Ce salon n'a pas de catégorie."); return; }
+        if (!category) { interaction.editReply("Ce salon n'a pas de catégorie."); return; }
 
-        const channels = categorie.children;
+        const channels = category.children;
 
-        const newCategorie = await categorie.clone({ reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
+        const newCategory = await category.clone({ reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
 
-        channels.forEach(async channel => {
-            (await channel.clone()).setParent(newCategorie, { reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
-            channel.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
+        channels.forEach(async c => {
+            (await c.clone()).setParent(newCategory, { reason: `Purge de la catégorie demandé par ${interaction.user.username}` });
+            c.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
         })
 
-        categorie.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
+        category.delete(`Purge de la catégorie demandé par ${interaction.user.username}`);
     }
 
     @Slash('forceCommands')
     @Description("Vide le cache et actualise les commandes du Bot")
     private async forceCommands(interaction: CommandInteraction) {
-        interaction.defer({ ephemeral: true });
+        await interaction.defer({ ephemeral: true });
 
         await SingletonClient.clearSlashes();
         await SingletonClient.clearSlashes(ServerIDs.MAIN);
@@ -73,57 +81,61 @@ abstract class Maintenance {
     @Description('Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut.')
     private async deleteMessages(
         @Option('nombre', { description: "Nombre de message à effacer" })
-        nbrMessage: number,
+        amount: number,
         @Option('jours', { description: "Ancienneté des messages à supprimer en jours" })
-        jours: number,
+        days: number,
         @Option('heures', { description: "Ancienneté des messages à supprimer en heures" })
-        heures: number,
+        hours: number,
         @Option('minutes', { description: "Ancienneté des messages à supprimer en minutes" })
         minutes: number,
         interaction: CommandInteraction
     ) {
-        let listMessages: Collection<Snowflake, Message>;
+        let messageList: Collection<Snowflake, Message>;
+        // Can't be DMChannel or ThreadChannel with the global Guard
+        const channel = <TextChannel | NewsChannel>interaction.channel;
 
-        if (jours || heures || minutes) {
+        if (days || hours || minutes) {
             let time: number = 0;
 
-            if (jours) time += jours * 8.64e+7;
-            if (heures) time += heures * 3.6e+6;
+            if (days) time += days * 8.64e+7;
+            if (hours) time += hours * 3.6e+6;
             if (minutes) time += minutes * 60000;
 
             let options: AwaitMessagesOptions = {
                 time
             }
 
-            if (nbrMessage)
-                options.max = nbrMessage
+            if (amount)
+                options.max = amount
 
-            const maxTimeStamp = new Date(Date.now() - time);
+            const maxTimestamp = new Date(Date.now() - time);
 
-            listMessages = (await (<TextChannel>interaction.channel).messages.fetch()).filter(message => message.createdAt >= maxTimeStamp);
+            messageList = (await channel.messages.fetch()).filter(message => message.createdAt >= maxTimestamp);
         }
 
-        const messagesSupprimes = await (<TextChannel>interaction.channel).bulkDelete((listMessages || nbrMessage || 100), true);
-        const nbrMessagesRestant = (listMessages?.size || nbrMessage || 100) - messagesSupprimes.size;
+        const deletedMessages = await channel.bulkDelete((messageList || amount || 100), true);
+        const notDeletedMessageAmount = (messageList?.size || amount || 100) - deletedMessages.size;
 
-        let messageReply: string = `${messagesSupprimes.size} ${messagesSupprimes.size > 1 ? "messages ont été supprimés" : "message a été supprimé"}.`
+        let replyMessage: string = `${deletedMessages.size} ${deletedMessages.size > 1 ? "messages ont été supprimés" : "message a été supprimé"}.`
 
-        if (nbrMessagesRestant !== 0)
-            messageReply += ` ${nbrMessagesRestant} ${nbrMessagesRestant > 1 ? "messages n'ont pas pu être supprimés" : "message n'a pas pu être supprimé"} à cause de la limitation de 2 semaines de Discord. Pour supprimer tout un salon vous pouvez utiliser \`/purgechannel\`.`;
+        if (notDeletedMessageAmount !== 0)
+            replyMessage += ` ${notDeletedMessageAmount} ${notDeletedMessageAmount > 1 ? "messages n'ont pas pu être supprimés" : "message n'a pas pu être supprimé"}. Cela est peut être dû à la limitation de 2 semaines de Discord (Ou qu'il n'y avait pas autant de message dans le salon). Pour supprimer tout un salon vous pouvez utiliser \`/purgechannel\`.`;
 
-        interaction.reply({ content: messageReply })
+        interaction.reply({ content: replyMessage })
     }
 
     @Slash('supprimervocaux')
     @Description("Supprime tous les salons vocaux de la catégorie")
     private async supprimervocaux(interaction: CommandInteraction) {
-        const categorie = (<TextChannel>interaction.channel).parent;
+        // Can't be DMChannel or ThreadChannel with the global Guard
+        const channel = <TextChannel | NewsChannel>interaction.channel;
+        const category = channel.parent;
 
-        if (!categorie) { interaction.reply({ content: "Ce salon n'a pas de catégorie.", ephemeral: true }); return; }
+        if (!category) { interaction.reply({ content: "Ce salon n'a pas de catégorie.", ephemeral: true }); return; }
 
-        interaction.defer();
+        await interaction.defer();
 
-        await Promise.all(categorie.children.map(salon => { if (salon.type == 'voice') salon.delete(`Suppression des salons vocaux demandé par ${interaction.user.username}`) }));
+        await Promise.all(category.children.map(salon => { if (salon.type == 'voice') salon.delete(`Suppression des salons vocaux demandé par ${interaction.user.username}`) }));
 
         interaction.editReply({ content: `Tous les salons vocaux de cette catégorie ont été supprimés !` });
     }

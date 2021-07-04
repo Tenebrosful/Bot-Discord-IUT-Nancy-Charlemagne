@@ -1,18 +1,18 @@
-import { DefaultPermission, Description, Discord, Slash } from "@typeit/discord";
+import { DefaultPermission, Description, Discord, Guard, Slash } from "@typeit/discord";
 import { CommandInteraction, MessageEmbed } from "discord.js";
 import { RoleIDs } from "../enums/IDs";
+import { notDMChannel } from "../guards/channelTypeFilter";
 
 @DefaultPermission(true)
 @Discord()
 abstract class Info {
     @Slash('info')
     @Description('Affiche les informations du serveur')
-    private info(
+    @Guard(notDMChannel)
+    private async info(
         interaction: CommandInteraction
     ) {
-        if (!interaction.channel || interaction.channel.type === 'dm') { interaction.reply({ content: "Désolé mais je ne peux pas effectuer cette commande en message privé.", ephemeral: true }); return; }
-        
-        interaction.defer();
+        await interaction.defer();
 
         const guild = interaction.guild;
         const resEmbed = new MessageEmbed()

@@ -16,7 +16,7 @@ abstract class Role {
 
         if (!channel.isText()) interaction.reply("Type de salon inattendu.");
 
-        const selectMain = new MessageActionRow()
+        const mainSelectRow = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomID('role-main')
@@ -50,7 +50,7 @@ abstract class Role {
             );
 
         try {
-            await channel.send({ content: "Bienvenue sur le Serveur du Département Informatique de l'IUT Nancy-Charlemagne ! Veuillez sélectionner ce qui vous correspondant via le menu juste en dessous.", components: [selectMain] });
+            await channel.send({ content: "Bienvenue sur le Serveur du Département Informatique de l'IUT Nancy-Charlemagne ! Veuillez sélectionner ce qui vous correspondant via le menu juste en dessous.", components: [mainSelectRow] });
         } catch (err) {
             interaction.editReply({ content: "Une erreur est survenue." });
             console.log(err)
@@ -65,14 +65,15 @@ abstract class Role {
 
         switch (selected) {
             case "enseignant":
-                const channel = (<TextChannel>interaction.guild.channels.resolve(ChannelIDs.ADMIN_CHANNEL));
+                const channel = (interaction.guild.channels.resolve(ChannelIDs.ADMIN_CHANNEL));
 
-                if (channel === null) {
-                    console.log(`Null Channel`)
+                if (channel === null || !channel.isText()) {
+                    console.log(`Null Channel`);
                     interaction.reply({ content: "Une erreure est survenue.", ephemeral: true });
+                    return;
                 }
 
-                channel.send(`${(await interaction.guild.fetchOwner()).toString()} ! ${interaction.user.toString()} demande le grade ${interaction.guild.roles.resolve(RoleIDs.COMPTE_SECONDAIRE).toString()}. (Enseignant mais pour les test je retire les potentiels ping du grade désolé)`);
+                await channel.send(`${(await interaction.guild.fetchOwner()).toString()} ! ${interaction.user.toString()} demande le grade ${interaction.guild.roles.resolve(RoleIDs.COMPTE_SECONDAIRE).toString()}. (Enseignant mais pour les test je retire les potentiels ping du grade désolé)`);
                 interaction.reply({ content: "Votre demande a bien été transmisse !", ephemeral: true });
                 break;
         }
