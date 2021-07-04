@@ -1,6 +1,6 @@
-import 'reflect-metadata';
-import { ButtonInteraction, CommandInteraction, DiscordAPIError, Intents, Interaction, MessageComponentInteraction, TextChannel } from 'discord.js';
 import { Client } from '@typeit/discord';
+import { CommandInteraction, Intents, Interaction } from 'discord.js';
+import 'reflect-metadata';
 import * as config from './configs/bot.json';
 
 export let SingletonClient: Client;
@@ -23,9 +23,9 @@ async function start() {
         console.log('Ready !');
     });
 
-    SingletonClient.on("interaction", (interaction) => {
+    SingletonClient.on("interactionCreate", (interaction) => {
         console.log(logInteraction(interaction));
-        SingletonClient.executeSlash(interaction);
+        SingletonClient.executeInteraction(interaction);
     });
 
     await SingletonClient.login(config.bot_token);

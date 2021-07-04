@@ -1,8 +1,8 @@
-import { Description, Discord, Slash } from "@typeit/discord";
-import { MessageEmbed } from "discord.js";
-import { CommandInteraction, DiscordAPIError } from "discord.js";
+import { DefaultPermission, Description, Discord, Slash } from "@typeit/discord";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import { RoleIDs } from "../enums/IDs";
 
+@DefaultPermission(true)
 @Discord()
 abstract class Info {
     @Slash('info')

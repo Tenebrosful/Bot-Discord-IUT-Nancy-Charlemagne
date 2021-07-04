@@ -1,12 +1,14 @@
-import { Discord, Slash, Description, Permission, Guild, Option } from "@typeit/discord";
+import { DefaultPermission, Description, Discord, Group, Guild, Option, Permission, Slash } from "@typeit/discord";
 import { AwaitMessagesOptions, Collection, CommandInteraction, Message, Snowflake, TextChannel } from "discord.js";
 import { SingletonClient } from "..";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
 @Guild(ServerIDs.MAIN)
-@Permission(RoleIDs.ADMIN, 'ROLE')
-@Permission(RoleIDs.STAR, 'ROLE')
+@DefaultPermission(false)
+@Permission({id: RoleIDs.ADMIN, type: 'ROLE', permission: true})
+@Permission({id: RoleIDs.STAR, type: 'ROLE', permission: true})
+@Group('Maintenance', "Commandes de maintenance du serveur")
 abstract class Maintenance {
     @Slash('purgeChannel')
     @Description("Clone et supprime le salon afin de supprimer son contenu")

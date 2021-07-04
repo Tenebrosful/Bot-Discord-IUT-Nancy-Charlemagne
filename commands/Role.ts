@@ -1,9 +1,12 @@
-import { Description, Discord, Guild, SelectMenu, Slash } from "@typeit/discord";
-import { CommandInteraction, TextChannel, NewsChannel, MessageActionRow, MessageButton, MessageSelectMenu, SelectMenuInteraction } from "discord.js";
-import { ChannelIDs, ServerIDs, RoleIDs } from "../enums/IDs";
+import { DefaultPermission, Description, Discord, Guild, Permission, SelectMenu, Slash } from "@typeit/discord";
+import { CommandInteraction, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, TextChannel } from "discord.js";
+import { ChannelIDs, RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
 @Guild(ServerIDs.MAIN)
+@DefaultPermission(false)
+@Permission({id: RoleIDs.ADMIN, type: 'ROLE', permission: true})
+@Permission({id: RoleIDs.STAR, type: 'ROLE', permission: true})
 abstract class Role {
     @Slash('messageroles')
     @Description("Envoie le message permettant d'obtenir les rôles")

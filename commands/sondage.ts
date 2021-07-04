@@ -1,7 +1,8 @@
-import { Discord, Option, Slash, Description, Guild } from "@typeit/discord";
+import { DefaultPermission, Description, Discord, Option, Slash } from "@typeit/discord";
 import { CommandInteraction, Message, MessageEmbed } from "discord.js";
 
 @Discord()
+@DefaultPermission(true)
 abstract class sondage {
     @Slash('sondage')
     @Description("Créé un sondage")

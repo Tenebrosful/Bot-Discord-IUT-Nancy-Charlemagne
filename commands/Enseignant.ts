@@ -1,13 +1,14 @@
-import { Description, Discord, Guard, Guild, Option, Permission, Slash } from "@typeit/discord";
+import { DefaultPermission, Description, Discord, Guard, Guild, Option, Permission, Slash } from "@typeit/discord";
 import { CommandInteraction, TextChannel, VoiceChannel } from "discord.js";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 import { categorieScolaireOnly } from "../guards/categorieScolaireOnly";
 
 @Discord()
 @Guild(ServerIDs.MAIN)
-@Permission(RoleIDs.ADMIN, 'ROLE')
-@Permission(RoleIDs.STAR, 'ROLE')
-@Permission(RoleIDs.ENSEIGNANT, 'ROLE')
+@DefaultPermission(false)
+@Permission({id: RoleIDs.ADMIN, type: 'ROLE', permission: true})
+@Permission({id: RoleIDs.STAR, type: 'ROLE', permission: true})
+@Permission({id: RoleIDs.ENSEIGNANT, type: 'ROLE', permission: true})
 abstract class Enseignant {
     @Slash('groupevocal')
     @Description("Crée un ou plusieurs salons vocaux temporaire dans cette catégorie (1 salon pendant 60m par défaut)")

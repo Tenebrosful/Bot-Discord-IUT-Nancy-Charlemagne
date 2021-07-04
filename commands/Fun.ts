@@ -1,4 +1,4 @@
-import { Discord, Description, Option, Slash, Choices, Guild, Button } from "@typeit/discord";
+import { Button, Choices, DefaultPermission, Description, Discord, Option, Slash } from "@typeit/discord";
 import { randomInt } from "crypto";
 import { ButtonInteraction, CommandInteraction, EmojiIdentifierResolvable, MessageActionRow, MessageButton } from "discord.js";
 
@@ -40,6 +40,7 @@ class pfcProposition {
     }
 }
 
+@DefaultPermission(true)
 @Discord()
 abstract class Fun {
     @Slash('pfc')

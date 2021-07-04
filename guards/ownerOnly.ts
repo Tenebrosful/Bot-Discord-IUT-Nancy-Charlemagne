@@ -1,4 +1,3 @@
-import { CommandInteraction } from "discord.js"
 
 export const ownerOnly = async (
     messageOrCommand: CommandInteraction,

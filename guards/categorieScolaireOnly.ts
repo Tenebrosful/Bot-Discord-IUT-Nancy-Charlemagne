@@ -1,4 +1,4 @@
-import { CommandInteraction, TextChannel } from "discord.js"
+import { CommandInteraction, TextChannel } from "discord.js";
 import { ListCategorieScolaire } from "../enums/IDs";
 
 export const categorieScolaireOnly = async (
