@@ -1,3 +1,4 @@
+import { CommandInteraction } from "discord.js";
 
 export const ownerOnly = async (
     messageOrCommand: CommandInteraction,
@@ -7,5 +8,5 @@ export const ownerOnly = async (
     if (messageOrCommand.user.id === messageOrCommand.guild.ownerID)
         await next();
     else
-        messageOrCommand.reply({ content: `❌ Désolé, seul le propriétaire du serveur peut effectuer cette commande !`, ephemeral: true });
+        messageOrCommand.reply({ content: `❌ Désolé, seul le propriétaire du serveur peut effectuer cette action !`, ephemeral: true });
 };
