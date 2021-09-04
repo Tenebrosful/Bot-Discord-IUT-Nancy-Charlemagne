@@ -1,8 +1,7 @@
+require('dotenv').config()
 import { Client } from 'discordx';
 import { CommandInteraction, Intents, Interaction } from 'discord.js';
 import 'reflect-metadata';
-
-import * as bot from './config/bot.json';
 
 export let SingletonClient: Client;
 
@@ -40,7 +39,7 @@ async function start() {
         SingletonClient.executeInteraction(interaction);
     });
 
-    SingletonClient.login(bot.token ?? "");
+    SingletonClient.login(process.env.BOT_TOKEN ?? "");
 }
 
 start();
