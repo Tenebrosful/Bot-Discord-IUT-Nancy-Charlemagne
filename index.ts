@@ -1,6 +1,6 @@
 require('dotenv').config()
 import { Client } from 'discordx';
-import { CommandInteraction, Intents, Interaction } from 'discord.js';
+import { Intents } from 'discord.js';
 import 'reflect-metadata';
 
 export let SingletonClient: Client;
