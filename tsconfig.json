@@ -15,7 +15,8 @@
       "ES2021",
       "esnext.asynciterable"
     ],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules"
