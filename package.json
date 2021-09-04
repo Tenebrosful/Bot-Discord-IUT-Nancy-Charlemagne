@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "clear && ts-node .",
-    "twitter": "clear && node twitter.js"
+    "start": "clear && ts-node ."
   },
   "repository": {
     "type": "git",
