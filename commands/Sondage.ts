@@ -1,6 +1,5 @@
-import { CommandInteraction, Message, MessageEmbed } from "discord.js";
-import { DefaultPermission, Discord, Guild, Slash, SlashOption } from "discordx";
-import { ServerIDs } from "../enums/IDs";
+import { CommandInteraction, MessageEmbed } from "discord.js";
+import { DefaultPermission, Discord, Slash, SlashOption } from "discordx";
 
 @Discord()
 @DefaultPermission(true)
