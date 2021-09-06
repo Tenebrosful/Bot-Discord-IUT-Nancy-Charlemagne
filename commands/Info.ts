@@ -1,9 +1,10 @@
-import { Discord, Guild, Slash } from 'discordx';
-import { CommandInteraction, MessageEmbed, Role } from 'discord.js';
+import { Discord, Slash } from 'discordx';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { RoleIDs } from '../enums/IDs';
 
 @Discord()
 abstract class Info {
+    
     @Slash('info', { description: "Affiche les informations du serveur" })
     private async info(interaction: CommandInteraction) {
         if (interaction.channel?.type === "DM") { interaction.reply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé.", ephemeral: true }) }
@@ -11,15 +12,6 @@ abstract class Info {
         await interaction.deferReply();
 
         const guild = interaction.guild;
-
-        const oldDUTStudent = guild?.roles.resolve(RoleIDs.ANCIEN_DUT)?.members.size;
-        const oldLPStudent = guild?.roles.resolve(RoleIDs.ANCIEN_LP_CIASIE)?.members.size;
-
-        let sumOldStudent = 0;
-
-        if (oldDUTStudent) sumOldStudent += oldDUTStudent;
-
-        if (oldLPStudent) sumOldStudent += oldLPStudent;
 
         const resEmbed = new MessageEmbed()
             .setColor('#DD131E')
@@ -32,7 +24,7 @@ abstract class Info {
                         <@&${RoleIDs.SERVER_BOOSTER}> : \`${guild?.roles.resolve(RoleIDs.SERVER_BOOSTER)?.members.size}\`
                         <@&${RoleIDs.ENSEIGNANT}> : \`${guild?.roles.resolve(RoleIDs.ENSEIGNANT)?.members.size}\`
                         <@&${RoleIDs.DÉLÉGUÉ}> : \`${guild?.roles.resolve(RoleIDs.DÉLÉGUÉ)?.members.size}\`
-                        Ancien Étudiant : \`${sumOldStudent}\`
+                        Ancien Étudiant : \`${(guild?.roles.resolve(RoleIDs.ANCIEN_DUT)?.members.size || 0) + (guild?.roles.resolve(RoleIDs.ANCIEN_LP_CIASIE)?.members.size || 0)}\`
                         <@&${RoleIDs.ÉTUDIANT}> : \`${guild?.roles.resolve(RoleIDs.ÉTUDIANT)?.members.size}\`
                         <@&${RoleIDs.COMPTE_SECONDAIRE}> : \`${guild?.roles.resolve(RoleIDs.COMPTE_SECONDAIRE)?.members.size}\`
                         Total : \`${guild?.memberCount}\`
