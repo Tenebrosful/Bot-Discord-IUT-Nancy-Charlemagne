@@ -13,7 +13,6 @@ export enum RoleIDs {
     LP_CIASIE = '756578998120611940',
     BUT_1A = '756579307597463632',
     DUT_2A = '756579488418103396',
-    DUT_AS = '756579565299695636'
 }
 
 export enum ServerIDs{
