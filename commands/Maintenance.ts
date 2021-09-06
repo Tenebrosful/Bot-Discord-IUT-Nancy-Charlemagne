@@ -48,7 +48,7 @@ abstract class Maintenance {
         if (createDocuments) {
             const documentChannel = await guild?.channels.create("📚・documents", {
                 type: "GUILD_TEXT",
-                topic: "Documents scolaires concernants la classe ou la promo",
+                topic: "Documents scolaires concernant la classe ou la promo",
                 parent: category,
                 reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
             });
