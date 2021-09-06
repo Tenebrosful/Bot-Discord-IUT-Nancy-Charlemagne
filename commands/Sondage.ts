@@ -3,7 +3,6 @@ import { DefaultPermission, Discord, Guild, Slash, SlashOption } from "discordx"
 import { ServerIDs } from "../enums/IDs";
 
 @Discord()
-@Guild(ServerIDs.MAIN)
 @DefaultPermission(true)
 abstract class Sondage {
 
