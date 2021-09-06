@@ -36,7 +36,7 @@ abstract class Maintenance {
 
         const annoncementChannel = await guild?.channels.create("📢・annonces", {
             type: "GUILD_TEXT",
-            topic: "Annonces scolaires concernants la classe ou la promo",
+            topic: "Annonces scolaires concernant la classe ou la promo",
             parent: category,
             reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
         });
