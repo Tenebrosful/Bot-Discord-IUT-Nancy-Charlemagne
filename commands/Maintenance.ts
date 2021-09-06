@@ -71,11 +71,19 @@ abstract class Maintenance {
             await offreDeStageChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
         }
 
-        await guild?.channels.create("💬・discussions", {
+        const discussionsChannel = await guild?.channels.create("💬・discussions", {
             type: "GUILD_TEXT",
             topic: "Salon de discussions de la classe ou de la promo. N'hésitez pas à démarrer des fils de discussions s'il s'agit d'un sujet spécifique comme un cours en particulier !",
             parent: category,
             reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
+        });
+
+        discussionsChannel?.edit({
+            defaultAutoArchiveDuration:
+                (guild?.features.includes("SEVEN_DAY_THREAD_ARCHIVE") ? 10080 :
+                    (guild?.features.includes("THREE_DAY_THREAD_ARCHIVE") ? 4320 :
+                        1440)
+                )
         });
 
         const amphiChannel = await guild?.channels.create("🎤・Amphithéâtre", {
