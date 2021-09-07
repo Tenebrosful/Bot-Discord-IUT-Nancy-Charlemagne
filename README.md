@@ -6,7 +6,7 @@
 ## Installation
 - Télécharger le dépot git
 - Executer la commande `npm install`
-- [Setup de `BOT_TOKEN` minimum](#user-content-setup-env)
+- [Setup de `BOT_TOKEN` minimum](#setup-env)
 - Démarrer avec `npm start`
 
 ## Setup (`.env`)
