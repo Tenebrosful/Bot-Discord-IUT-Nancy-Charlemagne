@@ -201,7 +201,7 @@ abstract class Role {
     }
 
     @SelectMenuComponent('role-but-1a')
-    async selectMenuBUT(interaction: SelectMenuInteraction) {
+    async selectMenuBUT1A(interaction: SelectMenuInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         const roleValue = interaction.values?.[0];
@@ -238,6 +238,46 @@ abstract class Role {
             case 'but-1A-e':
                 await this.assignRole(guild, user, RoleIDs.BUT_1A, interaction);
                 await this.assignRole(guild, user, RoleIDs.BUT_1A_C, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            default:
+                await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
+        }
+    }
+
+    @SelectMenuComponent('role-dut-2a')
+    async selectMenuDUT2A(interaction: SelectMenuInteraction) {
+        await interaction.deferReply({ ephemeral: true });
+
+        const roleValue = interaction.values?.[0];
+
+        if (!roleValue) { interaction.editReply({ content: `Erreur, value = ${roleValue}` }); return; }
+
+        const user = interaction.user;
+
+        const guild = interaction.guild;
+
+        if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
+
+        switch (roleValue) {
+            case 'dut-2A-a':
+                await this.assignRole(guild, user, RoleIDs.DUT_2A, interaction);
+                await this.assignRole(guild, user, RoleIDs.DUT_2A_A, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'dut-2A-b':
+                await this.assignRole(guild, user, RoleIDs.DUT_2A, interaction);
+                await this.assignRole(guild, user, RoleIDs.DUT_2A_B, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'dut-2A-c':
+                await this.assignRole(guild, user, RoleIDs.DUT_2A, interaction);
+                await this.assignRole(guild, user, RoleIDs.DUT_2A_C, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'dut-2A-d':
+                await this.assignRole(guild, user, RoleIDs.DUT_2A, interaction);
+                await this.assignRole(guild, user, RoleIDs.DUT_2A_D, interaction);
                 await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
                 break;
             default:
