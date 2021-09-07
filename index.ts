@@ -1,6 +1,6 @@
 require('dotenv').config()
 import { Client } from 'discordx';
-import { Intents } from 'discord.js';
+import { CommandInteraction, Intents, Interaction } from 'discord.js';
 import 'reflect-metadata';
 
 export let SingletonClient: Client;
@@ -36,10 +36,40 @@ async function start() {
     });
 
     SingletonClient.on("interactionCreate", (interaction) => {
+        console.log(logInteraction(interaction));
         SingletonClient.executeInteraction(interaction);
     });
 
     SingletonClient.login(process.env.BOT_TOKEN ?? "");
+}
+
+export function getHorodateConsole() {
+    const date: Date = new Date(Date.now());
+
+    return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`
+}
+
+function logInteraction(interaction: Interaction) {
+    let log = `${getHorodateConsole()}\t${interaction.user.username}\t${interaction.type}`
+
+    if (interaction.isCommand())
+        log += `\t${(<CommandInteraction>interaction).commandName}`;
+
+    if (interaction.isMessageComponent()) {
+        log += `\t${interaction.customId}`;
+
+        if (interaction.isSelectMenu())
+            log += `\t${interaction.values}`;
+    }
+
+    if (interaction.isContextMenu()) {
+        if (interaction.targetType === "USER")
+            log += `\t${SingletonClient.users.resolve(interaction.targetId)?.username}`;
+        else if (interaction.targetType === "MESSAGE")
+            log += `\t${interaction.targetId}`;
+    }
+
+    return log;
 }
 
 start();
