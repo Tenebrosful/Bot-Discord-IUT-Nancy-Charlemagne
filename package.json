@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "clear && ts-node ."
+    "start": "clear && ts-node .",
+    "twitter": "clear && ts-node twitter.ts"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,12 @@
     "discord.js": "^13.1.0",
     "discordx": "^5.8.1",
     "dotenv": "^10.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "twit": "^2.2.11"
   },
   "devDependencies": {
     "@types/node": "^16.7.10",
+    "@types/twit": "^2.2.30",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   }

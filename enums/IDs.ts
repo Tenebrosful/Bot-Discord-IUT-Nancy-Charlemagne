@@ -30,6 +30,7 @@ export enum RoleIDs {
 
 export enum ChannelIDs{
     ADMIN_CHANNEL = '753753680334815345',
+    TWITTER = '854010477838073876'
     
 }
 
