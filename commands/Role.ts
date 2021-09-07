@@ -1,16 +1,16 @@
-import { CommandInteraction, MessageActionRow, MessageSelectMenu } from "discord.js";
-import { Discord, DefaultPermission, Guild, Permission, Slash } from "discordx";
+import { CommandInteraction, Guild, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, User } from "discord.js";
+import { Discord, DefaultPermission, Guild as Guildx, Permission, Slash, SelectMenuComponent } from "discordx";
 import { ServerIDs, RoleIDs } from "../enums/IDs";
 
 @Discord()
-@Guild(ServerIDs.MAIN)
+@Guildx(ServerIDs.MAIN) // Alias @Guild due to import name conflict
 @DefaultPermission(false)
 @Permission({ id: RoleIDs.ADMIN, type: 'ROLE', permission: true })
 @Permission({ id: RoleIDs.STAR, type: 'ROLE', permission: true })
 abstract class Role {
 
     @Slash('messageroles', { description: "Envoie le message permettant d'obtenir les rôles" })
-    private async messageroles(interaction: CommandInteraction) {
+    async messageroles(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
         const channel = interaction.channel;
@@ -116,5 +116,48 @@ abstract class Role {
         } finally {
             interaction.editReply({ content: "Done." });
         }
+    }
+
+    @SelectMenuComponent('role-lp')
+    async selectMenuLP(interaction: SelectMenuInteraction) {
+        await interaction.deferReply({ ephemeral: true });
+
+        const roleValue = interaction.values?.[0];
+
+        if (!roleValue) { interaction.editReply({ content: `Erreur, value = ${roleValue}` }); return; }
+
+        const user = interaction.user;
+
+        const guild = interaction.guild;
+
+        if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
+
+        switch (roleValue) {
+            case 'lp-ACORS':
+                await this.assignRole(guild, user, RoleIDs.LP_ACORS, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'lp-AFTER':
+                await this.assignRole(guild, user, RoleIDs.LP_AFTER, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'lp-CIASIE-1':
+                await this.assignRole(guild, user, RoleIDs.LP_CIASIE, interaction);
+                await this.assignRole(guild, user, RoleIDs.LP_CIASIE_1, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            case 'lp-CIASIE-2':
+                await this.assignRole(guild, user, RoleIDs.LP_CIASIE, interaction);
+                await this.assignRole(guild, user, RoleIDs.LP_CIASIE_2, interaction);
+                await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            default:
+                await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
+        }
+    }
+
+    private async assignRole(guild: Guild, user: User, roleID: RoleIDs, interaction: SelectMenuInteraction) {
+        await guild?.members.resolve(user)?.roles.add(roleID);
+        await interaction.followUp({ content: `Le rôle <@&${roleID}> a bien été assigné !`, ephemeral: true });
     }
 }
