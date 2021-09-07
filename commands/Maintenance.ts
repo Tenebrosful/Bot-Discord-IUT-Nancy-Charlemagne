@@ -1,4 +1,4 @@
-import { AwaitMessagesOptions, Collection, CommandInteraction, Message, Snowflake } from "discord.js";
+import { AwaitMessagesOptions, Collection, CommandInteraction, DMChannel, GuildChannel, Message, Snowflake } from "discord.js";
 import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 
@@ -159,5 +159,23 @@ abstract class Maintenance {
             replyMessage += ` ${notDeletedMessageAmount} ${notDeletedMessageAmount > 1 ? "messages n'ont pas pu être supprimés" : "message n'a pas pu être supprimé"}. Cela est peut être dû à la limitation de 2 semaines de Discord (Ou qu'il n'y avait pas autant de message dans le salon). Pour supprimer tout un salon vous pouvez utiliser \`/purgechannel\`.`;
 
         interaction.reply({ content: replyMessage })
+    }
+
+    @Slash('purgeChannel', { description: "Clone et supprime le salon afin de supprimer son contenu" })
+    async purgeChannel(
+        @SlashOption("channel", { description: "Salon à purger. Salon actuel par défaut", type: "CHANNEL", required: true })
+        channel: GuildChannel | DMChannel,
+        interaction: CommandInteraction
+    ) {
+        interaction.deferReply({ ephemeral: true });
+
+        if (channel.isThread()) { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande sur un Fil" }); return; }
+        if (channel.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé sans indiquer un salon précis." }); return; }
+
+        const newChannel = await channel.clone({ reason: `Purge du salon demandé par ${interaction.user.username}` });
+        await channel.delete();
+
+        if (channel !== interaction.channel)
+            interaction.editReply({ content: `Salon purgé ! ${newChannel}` });
     }
 }
