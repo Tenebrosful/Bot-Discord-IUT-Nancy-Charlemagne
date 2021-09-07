@@ -6,5 +6,16 @@
 ## Installation
 - Télécharger le dépot git
 - Executer la commande `npm install`
-- Créer un fichier `.env` à la racine contenant la ligne `BOT_TOKEN=` et d'y insérer le token de votre bot
+- [Setup de `BOT_TOKEN` minimum](#user-content-setup-env)
 - Démarrer avec `npm start`
+
+## Setup (`.env`)
+```env
+BOT_TOKEN=
+CONSUMER_KEY=
+CONSUMER_SECRET=
+ACCESS_TOKEN=
+ACCESS_TOKEN_SECRET=
+```
+- `BOT_TOKEN` est le token du compte **BOT Discord**
+- `CONSUMER_KEY` `CONSUMER_SECRET` `ACCESS_TOKEN` `ACCESS_TOKEN_SECRET` sont les variables d'authentification pour **Twitter**
