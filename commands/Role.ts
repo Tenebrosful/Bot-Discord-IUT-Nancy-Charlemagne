@@ -285,6 +285,32 @@ abstract class Role {
         }
     }
 
+    @SelectMenuComponent('role-old-student')
+    async selectMenuOldStudent(interaction: SelectMenuInteraction) {
+        await interaction.deferReply({ ephemeral: true });
+
+        const roleValue = interaction.values?.[0];
+
+        if (!roleValue) { interaction.editReply({ content: `Erreur, value = ${roleValue}` }); return; }
+
+        const user = interaction.user;
+
+        const guild = interaction.guild;
+
+        if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
+
+        switch (roleValue) {
+            case 'old-lp-CIASIE':
+                await this.assignRole(guild, user, RoleIDs.ANCIEN_LP_CIASIE, interaction);
+                break;
+            case 'old-DUT':
+                await this.assignRole(guild, user, RoleIDs.ANCIEN_DUT, interaction);
+                break;
+            default:
+                await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
+        }
+    }
+
     private async assignRole(guild: Guild, user: User, roleID: RoleIDs, interaction: SelectMenuInteraction) {
         await guild?.members.resolve(user)?.roles.add(roleID);
         await interaction.followUp({ content: `Le rôle <@&${roleID}> a bien été assigné !`, ephemeral: true });
