@@ -46,21 +46,65 @@ abstract class Role {
                             description: "Vous êtes en Licences Professionnelle CIASIE (Groupe 2) ?"
                         }]));
 
-        const BUTRow = new MessageActionRow()
+        const BUT1ARow = new MessageActionRow()
             .addComponents(
                 new MessageSelectMenu()
-                    .setCustomId('role-but')
-                    .setPlaceholder("BUT / DUT")
+                    .setCustomId('role-but-1a')
+                    .setPlaceholder("BUT 1ère Année")
                     .addOptions([
                         {
-                            label: "BUT 1ère Année",
-                            value: "but-1A",
-                            description: "Vous êtes en 1ère Année de BUT ?"
+                            label: "BUT 1ère Année A",
+                            value: "but-1A-a",
+                            description: "Vous êtes en 1ère Année de BUT (Groupe A)?"
                         },
                         {
-                            label: "DUT 2ème Année",
-                            value: "dut-2A",
-                            description: "Vous êtes en 2ème Année de DUT ?"
+                            label: "BUT 1ère Année B",
+                            value: "but-1A-b",
+                            description: "Vous êtes en 1ère Année de BUT (Groupe B)?"
+                        },
+                        {
+                            label: "BUT 1ère Année C",
+                            value: "but-1A-c",
+                            description: "Vous êtes en 1ère Année de BUT (Groupe C)?"
+                        },
+                        {
+                            label: "BUT 1ère Année D",
+                            value: "but-1A-d",
+                            description: "Vous êtes en 1ère Année de BUT (Groupe D)?"
+                        },
+                        {
+                            label: "BUT 1ère Année E",
+                            value: "but-1A-e",
+                            description: "Vous êtes en 1ère Année de BUT (Groupe E)?"
+                        }
+                    ])
+            );
+
+        const DUT2ARow = new MessageActionRow()
+            .addComponents(
+                new MessageSelectMenu()
+                    .setCustomId('role-dut-2a')
+                    .setPlaceholder("DUT 2ème Année")
+                    .addOptions([
+                        {
+                            label: "DUT 2ème Année A",
+                            value: "dut-2A-a",
+                            description: "Vous êtes en 2ème Année de DUT (Groupe A)?"
+                        },
+                        {
+                            label: "DUT 2ème Année B",
+                            value: "dut-2A-b",
+                            description: "Vous êtes en 2ème Année de DUT (Groupe B)?"
+                        },
+                        {
+                            label: "DUT 2ème Année C",
+                            value: "dut-2A-c",
+                            description: "Vous êtes en 2ème Année de DUT (Groupe C)?"
+                        },
+                        {
+                            label: "DUT 2ème Année D",
+                            value: "dut-2A-d",
+                            description: "Vous êtes en 2ème Année de DUT (Groupe D)?"
                         }
                     ])
             );
@@ -109,7 +153,7 @@ abstract class Role {
             );
 
         try {
-            await channel.send({ content: "Bienvenue sur le Serveur du Département Informatique de l'IUT Nancy-Charlemagne ! Veuillez sélectionner ce qui vous correspondant via le menu juste en dessous.", components: [licensesProRow, BUTRow, NotStudentRow, OldStudentRow] });
+            await channel.send({ content: "Bienvenue sur le Serveur du Département Informatique de l'IUT Nancy-Charlemagne ! Veuillez sélectionner ce qui vous correspondant via le menu juste en dessous.", components: [licensesProRow, BUT1ARow, DUT2ARow, NotStudentRow, OldStudentRow] });
         } catch (err) {
             interaction.editReply({ content: "Une erreur est survenue." });
             console.log(err)
