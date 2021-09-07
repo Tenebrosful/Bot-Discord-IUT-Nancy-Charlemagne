@@ -1,5 +1,5 @@
-import { AwaitMessagesOptions, Collection, CommandInteraction, Message, NewsChannel, Snowflake, TextChannel } from "discord.js";
-import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption, SlashSlashOption } from "discordx";
+import { AwaitMessagesOptions, Collection, CommandInteraction, Message, Snowflake } from "discord.js";
+import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
@@ -12,11 +12,11 @@ abstract class Maintenance {
 
     @Slash("setupCategorieScolaire", { description: "Créé les salons basiques communs des catégories scolaires" })
     async setupCategorieScolaire(
-        @SlashSlashOption("idCategorie", { description: "ID de la catégorie à affecter", required: true })
+        @SlashOption("idCategorie", { description: "ID de la catégorie à affecter", required: true })
         idCat: string,
-        @SlashSlashOption("createDocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
+        @SlashOption("createDocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
         createDocuments: boolean = false,
-        @SlashSlashOption("createOffreDeStage", { description: "Voulez-vous créer le salon '📬・offres-de-stage' ?" })
+        @SlashOption("createOffreDeStage", { description: "Voulez-vous créer le salon '📬・offres-de-stage' ?" })
         createOffreDeStage: boolean = false,
         interaction: CommandInteraction
     ) {
