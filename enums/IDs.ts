@@ -28,6 +28,11 @@ export enum RoleIDs {
     ANCIEN_LP_CIASIE = '784476096480804884'
 }
 
+export enum ChannelIDs{
+    ADMIN_CHANNEL = '753753680334815345',
+    
+}
+
 export enum ServerIDs {
     MAIN = '753171392450527282'
 }
