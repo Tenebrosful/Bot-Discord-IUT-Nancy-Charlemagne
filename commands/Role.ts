@@ -1,6 +1,6 @@
 import { CommandInteraction, Guild, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, User } from "discord.js";
 import { Discord, DefaultPermission, Guild as Guildx, Permission, Slash, SelectMenuComponent } from "discordx";
-import { ServerIDs, RoleIDs } from "../enums/IDs";
+import { ServerIDs, RoleIDs, ChannelIDs } from "../enums/IDs";
 
 @Discord()
 @Guildx(ServerIDs.MAIN) // Alias @Guild due to import name conflict
@@ -279,6 +279,36 @@ abstract class Role {
                 await this.assignRole(guild, user, RoleIDs.DUT_2A, interaction);
                 await this.assignRole(guild, user, RoleIDs.DUT_2A_D, interaction);
                 await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
+                break;
+            default:
+                await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
+        }
+    }
+
+    @SelectMenuComponent('role-other')
+    async selectMenuOther(interaction: SelectMenuInteraction) {
+        await interaction.deferReply({ ephemeral: true });
+
+        const roleValue = interaction.values?.[0];
+
+        if (!roleValue) { interaction.editReply({ content: `Erreur, value = ${roleValue}` }); return; }
+
+        const user = interaction.user;
+
+        const guild = interaction.guild;
+
+        if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
+
+        switch (roleValue) {
+            case 'teacher':
+                const adminChannel = (interaction.guild.channels.resolve(ChannelIDs.ADMIN_CHANNEL));
+
+                if (!adminChannel) { interaction.editReply({ content: `Erreur, adminChannel = ${adminChannel}` }); return; }
+
+                if (!adminChannel.isText()) { interaction.editReply({ content: `Erreur, adminChannelType = ${adminChannel.type}` }); return; }
+
+                await adminChannel.send(`${interaction.guild.roles.resolve(RoleIDs.ADMIN)} ! ${user} demande le grade ${interaction?.guild?.roles?.resolve(RoleIDs.ENSEIGNANT)}.`);
+                interaction.followUp({ content: "Votre demande a bien été transmisse ! Étant donné les permissions attachées à ce rôle, il vous sera attribuée manuelle par un " + guild.roles.resolve(RoleIDs.ADMIN) + " après vérifications.", ephemeral: true });
                 break;
             default:
                 await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
