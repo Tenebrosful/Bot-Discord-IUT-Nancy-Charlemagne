@@ -1,4 +1,4 @@
-import { AwaitMessagesOptions, Collection, CommandInteraction, DMChannel, GuildChannel, Message, MessageActionRow, MessageButton, MessageEmbed, Snowflake } from "discord.js";
+import { AwaitMessagesOptions, CategoryChannel, Channel, Collection, CommandInteraction, DMChannel, GuildChannel, Message, MessageActionRow, MessageButton, MessageEmbed, Snowflake } from "discord.js";
 import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { RoleIDs, ServerIDs } from "../enums/IDs";
 
@@ -12,8 +12,8 @@ abstract class Maintenance {
 
     @Slash("setupCategorieScolaire", { description: "Créé les salons basiques communs des catégories scolaires" })
     async setupCategorieScolaire(
-        @SlashOption("idCategorie", { description: "ID de la catégorie à affecter", required: true })
-        idCat: string,
+        @SlashOption("categorie", { description: "ID de la catégorie à affecter", required: true, type: "CHANNEL" })
+        categoryParam: Channel,
         @SlashOption("createAnnonces", { description: "Voulez-vous créer le salon '📢・annonces' ?" })
         createAnnonces: boolean = false,
         @SlashOption("createDocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
@@ -26,15 +26,12 @@ abstract class Maintenance {
 
         if (interaction.channel?.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé." }); return; }
 
-        const guild = interaction.guild;
-
-        let category;
-
-        try { category = await guild?.channels.fetch(idCat); } catch (err) { interaction.editReply({ content: "❓ La catégorie est introuvable." }); return; }
-
-        if (category?.type !== 'GUILD_CATEGORY') { interaction.editReply({ content: "❌ Cela ne s'agit pas d'une catégorie." }); return; }
+        if (categoryParam?.type !== "GUILD_CATEGORY") { interaction.editReply({ content: "❌ Cela ne s'agit pas d'une catégorie." }); return; }
 
         interaction.editReply({ content: `Salons en cours de création...` });
+
+        const guild = interaction.guild;
+        const category = <CategoryChannel>categoryParam;
 
         if (createAnnonces) {
             const annoncementChannel = await guild?.channels.create("📢・annonces", {
