@@ -14,6 +14,8 @@ abstract class Maintenance {
     async setupCategorieScolaire(
         @SlashOption("idCategorie", { description: "ID de la catégorie à affecter", required: true })
         idCat: string,
+        @SlashOption("createAnnonces", { description: "Voulez-vous créer le salon '📢・annonces' ?" })
+        createAnnonces: boolean = false,
         @SlashOption("createDocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
         createDocuments: boolean = false,
         @SlashOption("createOffreDeStage", { description: "Voulez-vous créer le salon '📬・offres-de-stage' ?" })
@@ -34,16 +36,18 @@ abstract class Maintenance {
 
         interaction.editReply({ content: `Salons en cours de création...` });
 
-        const annoncementChannel = await guild?.channels.create("📢・annonces", {
-            type: "GUILD_TEXT",
-            topic: "Annonces scolaires concernant la classe ou la promo",
-            parent: category,
-            reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
-        });
+        if (createAnnonces) {
+            const annoncementChannel = await guild?.channels.create("📢・annonces", {
+                type: "GUILD_TEXT",
+                topic: "Annonces scolaires concernant la classe ou la promo",
+                parent: category,
+                reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
+            });
 
-        await annoncementChannel?.permissionOverwrites.edit(RoleIDs.EVERYONE, { "SEND_MESSAGES": false });
-        await annoncementChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "SEND_MESSAGES": true });
-        await annoncementChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
+            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.EVERYONE, { "SEND_MESSAGES": false });
+            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "SEND_MESSAGES": true });
+            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
+        }
 
         if (createDocuments) {
             const documentChannel = await guild?.channels.create("📚・documents", {
