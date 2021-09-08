@@ -129,7 +129,7 @@ abstract class Maintenance {
         minutes: number = 0,
         interaction: CommandInteraction
     ) {
-        interaction.deferReply({ ephemeral: true })
+        await interaction.deferReply({ ephemeral: true })
 
         const channel = interaction.channel;
 
@@ -171,7 +171,7 @@ abstract class Maintenance {
         channel: GuildChannel | DMChannel,
         interaction: CommandInteraction
     ) {
-        interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ ephemeral: true });
 
         if (channel.isThread()) { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande sur un Fil" }); return; }
         if (channel.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé sans indiquer un salon précis." }); return; }
@@ -189,7 +189,7 @@ abstract class Maintenance {
         channel: GuildChannel | DMChannel,
         interaction: CommandInteraction
     ) {
-        interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ ephemeral: true });
 
         if (channel.isThread()) { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande sur un Fil" }); return; }
         if (channel.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé sans indiquer un salon précis." }); return; }
