@@ -11,7 +11,7 @@ export function logInteraction(interaction: Interaction, client: Client) {
     let log = `${getHorodateConsole()}\t${interaction.user.username}\t${interaction.type}`
 
     if (interaction.isCommand())
-        log += `\t${(<CommandInteraction>interaction).commandName}`;
+        log += `\t${interaction.commandName}`;
 
     if (interaction.isMessageComponent()) {
         log += `\t${interaction.customId}`;
@@ -22,11 +22,9 @@ export function logInteraction(interaction: Interaction, client: Client) {
 
     if (interaction.isContextMenu()) {
         if (interaction.targetType === "USER")
-            //@ts-ignore
-            log += `\t${Client.users.resolve(interaction.targetId)?.username}`;
+            log += `\t${client.users.resolve(interaction.targetId)?.username}`;
         else if (interaction.targetType === "MESSAGE")
-            //@ts-ignore
-            log += `\t${Client.targetId}`;
+            log += `\t${interaction.targetId}`;
     }
 
     return log;
