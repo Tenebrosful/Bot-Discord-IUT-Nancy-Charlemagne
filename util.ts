@@ -1,5 +1,5 @@
+import { Interaction } from "discord.js";
 import { Client } from 'discordx';
-import { Interaction, CommandInteraction } from "discord.js";
 
 export function getHorodateConsole() {
     const date: Date = new Date(Date.now());

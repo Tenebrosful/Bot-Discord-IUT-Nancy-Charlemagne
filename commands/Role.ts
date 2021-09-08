@@ -1,6 +1,6 @@
 import { CommandInteraction, Guild, MessageActionRow, MessageSelectMenu, SelectMenuInteraction, User } from "discord.js";
-import { Discord, DefaultPermission, Guild as Guildx, Permission, Slash, SelectMenuComponent } from "discordx";
-import { ServerIDs, RoleIDs, ChannelIDs } from "../enums/IDs";
+import { DefaultPermission, Discord, Guild as Guildx, Permission, SelectMenuComponent, Slash } from "discordx";
+import { ChannelIDs, RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
 @Guildx(ServerIDs.MAIN) // Alias @Guild due to import name conflict

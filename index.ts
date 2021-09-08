@@ -1,6 +1,6 @@
 require('dotenv').config()
+import { Intents } from 'discord.js';
 import { Client } from 'discordx';
-import { CommandInteraction, Intents, Interaction } from 'discord.js';
 import 'reflect-metadata';
 import { logInteraction } from './util';
 

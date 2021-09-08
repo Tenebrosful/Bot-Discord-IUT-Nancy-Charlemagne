@@ -1,5 +1,5 @@
-import { Discord, Slash } from 'discordx';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
+import { Discord, Slash } from 'discordx';
 import { RoleIDs } from '../enums/IDs';
 
 @Discord()

@@ -1,6 +1,6 @@
 import { CommandInteraction, VoiceChannel } from "discord.js";
 import { DefaultPermission, Discord, Guild, Permission, Slash, SlashOption } from "discordx";
-import { ServerIDs, RoleIDs } from "../enums/IDs";
+import { RoleIDs, ServerIDs } from "../enums/IDs";
 
 @Discord()
 @Guild(ServerIDs.MAIN)
