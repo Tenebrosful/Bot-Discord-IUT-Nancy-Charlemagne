@@ -1,4 +1,4 @@
-import { Client, MessageEmbed } from 'discord.js';
+import { BaseGuildTextChannel, Client, MessageEmbed } from 'discord.js';
 import * as Twit from 'twit';
 import { ChannelIDs, ServerIDs } from '../../enums/IDs';
 
@@ -14,9 +14,9 @@ module.exports = {
 
         console.log(`@${tweet.user.screen_name} : ${tweet.text}`);
 
-        const channel = client.guilds.resolve(ServerIDs.MAIN)?.channels.resolve(ChannelIDs.TWITTER);
+        let channel = <BaseGuildTextChannel>(client.guilds.resolve(ServerIDs.MAIN)?.channels.resolve(ChannelIDs.TWITTER));
 
-        if (!channel || !channel.isText()) { console.log(`[Channel Error] Channel type = ${channel?.type}`); return; }
+        if (!channel || channel.isVoice()) { console.log(`[Channel Error] Channel type = ${channel?.type}`); return; }
 
         channel.sendTyping();
 
@@ -55,6 +55,9 @@ module.exports = {
             resEmbed.setImage(tweet.extended_entities?.media?.[0]?.media_url || tweet.extended_tweet?.extended_entities?.media?.[0]?.media_url || tweet.retweeted_status?.extended_tweet?.extended_entities?.media?.[0]?.media_url);
         }
 
-        await channel.send({ embeds: [resEmbed] });
+        const message = await channel.send({ embeds: [resEmbed] });
+
+        if (channel.type === "GUILD_NEWS" || channel.type === "GUILD_NEWS_THREAD")
+            await message.crosspost();
     }
 }
