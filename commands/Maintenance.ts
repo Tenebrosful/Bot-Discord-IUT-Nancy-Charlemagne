@@ -115,7 +115,7 @@ abstract class Maintenance {
     }
 
     @Slash('deleteMessages', { description: "Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut" })
-    private async deleteMessages(
+    async deleteMessages(
         @SlashOption('nombre', { description: "Nombre de message à effacer" })
         amount: number,
         @SlashOption('jours', { description: "Ancienneté des messages à supprimer en jours" })
