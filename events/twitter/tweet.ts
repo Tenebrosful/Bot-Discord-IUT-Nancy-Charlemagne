@@ -1,6 +1,7 @@
 import { BaseGuildTextChannel, Client, MessageEmbed } from 'discord.js';
 import * as Twit from 'twit';
 import { ChannelIDs, ServerIDs } from '../../enums/IDs';
+import { getHorodateConsole } from '../../util';
 
 module.exports = {
     name: 'tweet',
@@ -12,7 +13,7 @@ module.exports = {
         if (!this.options.follow.includes(tweet.user.id_str)) return;
         if (tweet.in_reply_to_status_id || tweet.in_reply_to_status_id_str || tweet.in_reply_to_user_id || tweet.in_reply_to_user_id_str || tweet.in_reply_to_screen_name) return;
 
-        console.log(`@${tweet.user.screen_name} : ${tweet.text}`);
+        console.log(`${getHorodateConsole()}\t@${tweet.user.screen_name} : ${tweet.text}`);
 
         let channel = <BaseGuildTextChannel>(client.guilds.resolve(ServerIDs.MAIN)?.channels.resolve(ChannelIDs.TWITTER));
 
