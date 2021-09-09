@@ -1,5 +1,5 @@
 import { randomInt } from "crypto";
-import { ButtonInteraction, CommandInteraction, EmojiIdentifierResolvable, MessageActionRow, MessageButton } from "discord.js";
+import { ButtonInteraction, CommandInteraction, EmojiIdentifierResolvable, MessageActionRow, MessageButton, User } from "discord.js";
 import { ButtonComponent, DefaultPermission, Discord, Slash, SlashChoice, SlashGroup, SlashOption } from "discordx";
 
 enum pfcChoix {
@@ -52,9 +52,10 @@ abstract class Fun {
         choice: pfcChoix,
         interaction: CommandInteraction
     ) {
-        await interaction.deferReply();
 
         if (choice) {
+            await interaction.deferReply({ ephemeral: true });
+
             const playerChoice = pfcProposition.nameToClass(choice);
 
             if (!playerChoice) { interaction.editReply({ content: `Erreur, ${choice} est un choix invalide.` }); return; }
@@ -62,8 +63,10 @@ abstract class Fun {
             const botChoice = Fun.pfcPlayBot();
             const result = Fun.isWin(playerChoice, botChoice);
 
-            interaction.editReply(Fun.pfcTraitementResultat(playerChoice, botChoice, result))
+            interaction.editReply(Fun.pfcTraitementResultat(playerChoice, botChoice, result, interaction.user));
         } else {
+            await interaction.deferReply();
+
             const rockButton = new MessageButton()
                 .setLabel("Pierre")
                 .setEmoji('🪨')
@@ -93,8 +96,6 @@ abstract class Fun {
                 .addComponents(rockButton, paperButton, scissorButton, wellButton);
 
             interaction.editReply({ content: "Ok let's go. 1v1 Pierre Feuille Ciseaux. Vas-y choisis !", components: [buttonRow] });
-
-            setTimeout(interaction => interaction.deleteReply(), 600000, interaction);
         }
     }
 
@@ -102,18 +103,14 @@ abstract class Fun {
     @ButtonComponent('pfc-paper')
     @ButtonComponent('pfc-scissors')
     private async pfcButton(interaction: ButtonInteraction) {
-        await interaction.deferReply();
-
         const playerChoice = pfcProposition.buttonCustomIDToClass(interaction.customId);
 
-        if (!playerChoice) { interaction.editReply({ content: `Erreur, ${interaction.customId} est un choix invalide.` }); return; }
+        if (!playerChoice) { interaction.reply({ content: `Erreur, ${interaction.customId} est un choix invalide.`, ephemeral: true }); return; }
 
         const botChoice = Fun.pfcPlayBot();
         const result = Fun.isWin(playerChoice, botChoice);
 
-        interaction.editReply(Fun.pfcTraitementResultat(playerChoice, botChoice, result));
-
-        setTimeout(interaction => { try { interaction.deleteReply() } catch (err) { console.error(err) } }, 30000, interaction);
+        interaction.update(Fun.pfcTraitementResultat(playerChoice, botChoice, result, interaction.user));
     }
 
     private static isWin(playerChoice: pfcProposition, botChoice: pfcProposition): pfcResultat {
@@ -137,14 +134,14 @@ abstract class Fun {
         return pfcProposition.propositions[randomInt(pfcProposition.propositions.length)];
     }
 
-    private static pfcTraitementResultat(choix: pfcProposition, choixBot: pfcProposition, resultat: pfcResultat) {
+    private static pfcTraitementResultat(choix: pfcProposition, choixBot: pfcProposition, resultat: pfcResultat, player: User) {
         switch (resultat) {
             case pfcResultat.WIN:
-                return { content: `${choixBot.emoji} ${choixBot.name} ! Well, noob ${choix.emoji} ${choix.name} need nerf plz...` };
+                return { content: `(${player}) ${choixBot.emoji} ${choixBot.name} ! Well, noob ${choix.emoji} ${choix.name} need nerf plz...` };
             case pfcResultat.LOOSE:
-                return { content: `${choixBot.emoji} ${choixBot.name} ! GG NO RE, EZ !` };
+                return { content: `(${player}) ${choixBot.emoji} ${choixBot.name} ! GG NO RE, EZ !` };
             case pfcResultat.DRAW:
-                return { content: `${choixBot.emoji} ${choixBot.name} ! Ha... Égalité...` };
+                return { content: `(${player}) ${choixBot.emoji} ${choixBot.name} ! Ha... Égalité...` };
         }
     }
 }
