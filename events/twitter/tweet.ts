@@ -1,4 +1,4 @@
-import { BaseGuildTextChannel, Client, MessageEmbed } from 'discord.js';
+import { BaseGuildTextChannel, Client, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import * as Twit from 'twit';
 import { ChannelIDs, ServerIDs } from '../../enums/IDs';
 import { getHorodateConsole } from '../../util';
@@ -30,14 +30,38 @@ module.exports = {
             //@ts-ignore
             .setTimestamp(tweet.created_at);
 
+        const row = new MessageActionRow();
+
         if (tweet.retweeted_status) {
             resEmbed.setTitle(`${tweet.user.screen_name} a retweeté(e)`)
                 .setAuthor(tweet.retweeted_status.user.name, tweet.retweeted_status.user.profile_image_url, `https://twitter.com/${tweet.retweeted_status.user.screen_name}`)
                 .setThumbnail(tweet.retweeted_status.user.profile_image_url)
                 //@ts-ignore
                 .setDescription(tweet.retweeted_status.extended_tweet?.full_text || tweet.retweeted_status.text);
+
+            row.addComponents(
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Tweet")
+                    .setURL(`https://twitter.com/${tweet.retweeted_status.user.screen_name}/status/${tweet.retweeted_status.id_str}`),
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Profil")
+                    .setURL(`https://twitter.com/${tweet.retweeted_status.user.screen_name}`)
+            );
         } else {
             resEmbed.setTitle(`Nouveau Tweet !`)
+
+            row.addComponents(
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Tweet")
+                    .setURL(`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`),
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Profil")
+                    .setURL(`https://twitter.com/${tweet.user.screen_name}`)
+            );
         }
 
         if (tweet.quoted_status) {
@@ -48,6 +72,17 @@ module.exports = {
                 //@ts-ignore
                 resEmbed.setImage(tweet.quoted_status?.extended_tweet?.extended_entities?.media?.[0]?.media_url);
             }
+
+            row.addComponents(
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Tweet Cité")
+                    .setURL(`https://twitter.com/${tweet.quoted_status.user.screen_name}/status/${tweet.quoted_status.id_str}`),
+                new MessageButton()
+                    .setStyle("LINK")
+                    .setLabel("Voir le Profil Cité")
+                    .setURL(`https://twitter.com/${tweet.quoted_status.user.screen_name}`)
+            );
         }
 
         //@ts-ignore
@@ -56,7 +91,7 @@ module.exports = {
             resEmbed.setImage(tweet.extended_entities?.media?.[0]?.media_url || tweet.extended_tweet?.extended_entities?.media?.[0]?.media_url || tweet.retweeted_status?.extended_tweet?.extended_entities?.media?.[0]?.media_url);
         }
 
-        const message = await channel.send({ embeds: [resEmbed] });
+        const message = await channel.send({ embeds: [resEmbed], components: [row] });
 
         if (channel.type === "GUILD_NEWS" || channel.type === "GUILD_NEWS_THREAD")
             await message.crosspost();
