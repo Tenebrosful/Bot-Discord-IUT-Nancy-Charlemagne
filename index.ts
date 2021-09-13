@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Intents } from 'discord.js';
 import { Client } from 'discordx';
 import 'reflect-metadata';
-import { logInteraction } from './util';
+import { getHorodateConsole, logInteraction } from './util';
 
 export let SingletonClient: Client;
 
@@ -33,7 +33,7 @@ async function start() {
 
     SingletonClient.once("ready", async () => {
         await SingletonClient.initApplicationCommands();
-        console.log("Ready !");
+        console.log(`${getHorodateConsole()}\tReady !`);
     });
 
     SingletonClient.on("interactionCreate", (interaction) => {
