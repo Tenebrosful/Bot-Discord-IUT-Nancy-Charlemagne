@@ -2,6 +2,7 @@ require('dotenv').config()
 import { Client } from 'discord.js';
 import * as fs from 'fs';
 import * as Twit from 'twit';
+import { getHorodateConsole } from './util';
 
 async function start() {
     const client = new Client({ intents: ['GUILDS'] });
@@ -15,7 +16,7 @@ async function start() {
 
     await client.login(process.env.BOT_TOKEN ?? "");
 
-    console.log('Twitter Bot Ready');
+    console.log(`${getHorodateConsole()}\tReady !`);
 }
 
 function loadTwitterEvents(Twitter: Twit, client: Client) {

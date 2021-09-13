@@ -4,7 +4,7 @@ import { Client } from 'discordx';
 export function getHorodateConsole() {
     const date: Date = new Date(Date.now());
 
-    return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`
+    return `[${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`
 }
 
 export function logInteraction(interaction: Interaction, client: Client) {
