@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "clear && ts-node .",
-    "twitter": "clear && ts-node twitter.ts"
+    "start": "clear && ts-node . > logs/main.log 2>&1",
+    "twitter": "clear && ts-node twitter.ts > logs/twitter.log 2>&1"
   },
   "repository": {
     "type": "git",
