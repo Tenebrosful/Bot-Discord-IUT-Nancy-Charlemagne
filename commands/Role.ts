@@ -237,7 +237,7 @@ abstract class Role {
                 break;
             case 'but-1A-e':
                 await this.assignRole(guild, user, RoleIDs.BUT_1A, interaction);
-                await this.assignRole(guild, user, RoleIDs.BUT_1A_C, interaction);
+                await this.assignRole(guild, user, RoleIDs.BUT_1A_E, interaction);
                 await this.assignRole(guild, user, RoleIDs.ÉTUDIANT, interaction);
                 break;
             default:
