@@ -1,11 +1,11 @@
 {
   "name": "bot-discord-iut-nancy-charlemagne",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "mkdir -p logs && ts-node . > logs/main.log 2>&1",
-    "twitter": "mkdir -p logs && ts-node twitter.ts > logs/twitter.log 2>&1"
+    "start": "./scripts/main_bot.bash",
+    "twitter": "./scripts/twitter_bot.bash"
   },
   "repository": {
     "type": "git",
