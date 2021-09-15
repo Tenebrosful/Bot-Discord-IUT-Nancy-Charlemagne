@@ -345,4 +345,74 @@ abstract class Role {
         await guild?.members.resolve(user)?.roles.add(roleID);
         await interaction.followUp({ content: `Le rôle <@&${roleID}> a bien été assigné !`, ephemeral: true });
     }
+
+    private async removeRole(guild: Guild, user: User, roleID: RoleIDs, interaction: SelectMenuInteraction) {
+        await guild?.members.resolve(user)?.roles.remove(roleID);
+        await interaction.followUp({ content: `Le rôle <@&${roleID}> a bien été retiré !`, ephemeral: true });
+    }
+
+    @Slash('messageRoleAlternant', { description: "Envoie le message permettant d'obtenir le rôle alternant" })
+    async messageRoleAlternant(interaction: CommandInteraction) {
+        await interaction.deferReply({ ephemeral: true });
+
+        const channel = interaction.channel;
+
+        if (!channel) { interaction.editReply({ content: "Erreur, channel: " + channel }); return; }
+
+        if (!channel.isText()) interaction.reply("Type de salon inattendu.");
+
+        const row = new MessageActionRow()
+            .addComponents(
+                new MessageSelectMenu()
+                    .setCustomId('role-alternant')
+                    .setPlaceholder("Veuillez sélectionner une réponse")
+                    .addOptions([
+                        {
+                            label: "Oui",
+                            description: "Je suis en alternance",
+                            value: "oui"
+                        },
+                        {
+                            label: "Non",
+                            "description": "Je suis en formation classique",
+                            value: "non"
+                        }
+                    ])
+            );
+
+        try {
+            await channel.send({ content: "Êtes-vous en alternance ? Si oui, vous pouvez obtenir un rôle spécial afin de faciliter les mentions et avoir un salon regroupant les alternants.", components: [row] });
+        } catch (err) {
+            interaction.editReply({ content: "Une erreur est survenue." });
+            console.log(err)
+        } finally {
+            interaction.editReply({ content: "Done." });
+        }
+    }
+
+    @SelectMenuComponent('role-alternant')
+    async selectMenuAlternant(interaction: SelectMenuInteraction){
+        await interaction.deferReply({ ephemeral: true });
+
+        const roleValue = interaction.values?.[0];
+
+        if (!roleValue) { interaction.editReply({ content: `Erreur, value = ${roleValue}` }); return; }
+
+        const user = interaction.user;
+
+        const guild = interaction.guild;
+
+        if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
+
+        switch (roleValue) {
+            case 'oui':
+                await this.assignRole(guild, user, RoleIDs.ALTERNANT, interaction);
+                break;
+            case 'non':
+                await this.removeRole(guild, user, RoleIDs.ALTERNANT, interaction);
+                break;
+            default:
+                await interaction.followUp({ content: `Erreur, value = ${roleValue}`, ephemeral: true });
+        }
+    }
 }
