@@ -11,11 +11,17 @@
 
 ## Setup (`.env`)
 ```env
-BOT_TOKEN=
+# Bot Principal (index.ts)
+MAIN_BOT_TOKEN=
+
+# Bot Twitter (twitter.ts)
+TWITTER_BOT_TOKEN
 CONSUMER_KEY=
 CONSUMER_SECRET=
 ACCESS_TOKEN=
 ACCESS_TOKEN_SECRET=
+
+# Bot Bêta
 ```
-- `BOT_TOKEN` est le token du compte **BOT Discord**
+- `*_BOT_TOKEN` est le token du compte **BOT Discord**
 - `CONSUMER_KEY` `CONSUMER_SECRET` `ACCESS_TOKEN` `ACCESS_TOKEN_SECRET` sont les variables d'authentification pour **Twitter**

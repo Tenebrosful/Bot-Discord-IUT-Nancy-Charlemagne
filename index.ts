@@ -40,7 +40,18 @@ async function start() {
         SingletonClient.executeInteraction(interaction);
     });
 
-    SingletonClient.login(process.env.BOT_TOKEN ?? "");
+    SingletonClient.login(process.env.BETA_BOT_TOKEN ?? process.env.MAIN_BOT_TOKEN ?? "");
+}
+
+function handleExit(signal: NodeJS.Signals){
+    console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
+    SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours", type: "COMPETING" }] })
+    SingletonClient.destroy();
+    console.log(`${getHorodateConsole()} Arrêt du bot.`);
+    process.exit(0);
 }
 
 start();
+
+process.on("SIGINT", handleExit);
+process.on("SIGTERM", handleExit);

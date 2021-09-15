@@ -4,17 +4,19 @@ import * as fs from 'fs';
 import * as Twit from 'twit';
 import { getHorodateConsole } from './util';
 
+export let SingletonClient: Client;
+
 async function start() {
-    const client = new Client({ intents: ['GUILDS'] });
+    SingletonClient = new Client({ intents: ['GUILDS'] });
 
     loadTwitterEvents(new Twit({
         consumer_key: process.env.CONSUMER_KEY ?? "",
         consumer_secret: process.env.CONSUMER_SECRET ?? "",
         access_token: process.env.ACCESS_TOKEN ?? "",
         access_token_secret: process.env.ACCESS_TOKEN_SECRET ?? ""
-    }), client);
+    }), SingletonClient);
 
-    await client.login(process.env.BOT_TOKEN ?? "");
+    await SingletonClient.login(process.env.BETA_BOT_TOKEN ?? process.env.TWITTER_BOT_TOKEN ?? "");
 
     console.log(`${getHorodateConsole()}\tReady !`);
 }
@@ -38,4 +40,15 @@ function loadTwitterEvents(Twitter: Twit, client: Client) {
     }
 }
 
+function handleExit(signal: NodeJS.Signals) {
+    console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
+    SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours (Twitter)", type: "COMPETING" }] })
+    SingletonClient.destroy();
+    console.log(`${getHorodateConsole()} Arrêt du bot.`);
+    process.exit(0);
+}
+
 start();
+
+process.on("SIGINT", handleExit);
+process.on("SIGTERM", handleExit);
