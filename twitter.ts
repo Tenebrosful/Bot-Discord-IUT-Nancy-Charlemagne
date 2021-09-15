@@ -42,7 +42,7 @@ function loadTwitterEvents(Twitter: Twit, client: Client) {
 
 function handleExit(signal: NodeJS.Signals) {
     console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
-    SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours (Twitter)", type: "COMPETING" }] })
+    SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours", type: "COMPETING" }] })
     SingletonClient.destroy();
     console.log(`${getHorodateConsole()} Arrêt du bot.`);
     process.exit(0);
