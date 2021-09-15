@@ -27,8 +27,7 @@ async function start() {
             `${__dirname}/commands/*.ts`,
             `${__dirname}/events/discord/*.ts`
         ],
-        botId: "850109914827587605",
-        requiredByDefault: false
+        botId: "850109914827587605"
     });
 
     SingletonClient.once("ready", async () => {
