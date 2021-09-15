@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Intents } from 'discord.js';
 import { Client } from 'discordx';
 import 'reflect-metadata';
-import { getHorodateConsole, logInteraction } from './util';
+import { getHorodateConsole, logInteraction, resetPresence } from './util';
 
 export let SingletonClient: Client;
 
@@ -33,6 +33,9 @@ async function start() {
     SingletonClient.once("ready", async () => {
         await SingletonClient.initApplicationCommands();
         console.log(`${getHorodateConsole()}\tReady !`);
+
+        if (SingletonClient.user)
+            resetPresence(SingletonClient.user);
     });
 
     SingletonClient.on("interactionCreate", (interaction) => {
@@ -43,7 +46,7 @@ async function start() {
     SingletonClient.login(process.env.BETA_BOT_TOKEN ?? process.env.MAIN_BOT_TOKEN ?? "");
 }
 
-function handleExit(signal: NodeJS.Signals){
+function handleExit(signal: NodeJS.Signals) {
     console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
     SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours", type: "COMPETING" }] })
     SingletonClient.destroy();

@@ -1,4 +1,4 @@
-import { Interaction } from "discord.js";
+import { ClientUser, Interaction } from "discord.js";
 import { Client } from 'discordx';
 
 export function getHorodateConsole() {
@@ -28,4 +28,8 @@ export function logInteraction(interaction: Interaction, client: Client) {
     }
 
     return log;
+}
+
+export function resetPresence(user: ClientUser) {
+    user.setPresence({ status: "online", activities: [] })
 }

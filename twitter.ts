@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Client } from 'discord.js';
 import * as fs from 'fs';
 import * as Twit from 'twit';
-import { getHorodateConsole } from './util';
+import { getHorodateConsole, resetPresence } from './util';
 
 export let SingletonClient: Client;
 
@@ -16,10 +16,17 @@ async function start() {
         access_token_secret: process.env.ACCESS_TOKEN_SECRET ?? ""
     }), SingletonClient);
 
-    await SingletonClient.login(process.env.BETA_BOT_TOKEN ?? process.env.TWITTER_BOT_TOKEN ?? "");
+    SingletonClient.on("ready", () => {
+        console.log(`${getHorodateConsole()}\tReady !`);
 
-    console.log(`${getHorodateConsole()}\tReady !`);
+        if (SingletonClient.user)
+            resetPresence(SingletonClient.user);
+    })
+
+    await SingletonClient.login(process.env.BETA_BOT_TOKEN ?? process.env.TWITTER_BOT_TOKEN ?? "");
 }
+
+
 
 function loadTwitterEvents(Twitter: Twit, client: Client) {
     const eventFiles = fs.readdirSync('./events/twitter').filter(file => file.endsWith('.ts'));
