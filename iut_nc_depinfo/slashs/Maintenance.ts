@@ -1,12 +1,13 @@
 import { AwaitMessagesOptions, CategoryChannel, Channel, Collection, CommandInteraction, DMChannel, GuildChannel, Message, MessageActionRow, MessageButton, MessageEmbed, Snowflake } from "discord.js";
 import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
-import { RoleIDs, ServerIDs } from "../enums/IDs";
+import { Serveur } from "../../IDs";
+import { Role } from "../IDs";
 
 @Discord()
-@Guild(ServerIDs.MAIN)
+@Guild(Serveur.IUT_NC_DEP_INFO)
 @DefaultPermission(false)
-@Permission({ id: RoleIDs.ADMIN, type: 'ROLE', permission: true })
-@Permission({ id: RoleIDs.STAR, type: 'ROLE', permission: true })
+@Permission({ id: Role.ADMIN, type: 'ROLE', permission: true })
+@Permission({ id: Role.STAR, type: 'ROLE', permission: true })
 @SlashGroup("maintenance", "Commandes de maintenance du serveur")
 abstract class Maintenance {
 
@@ -41,9 +42,9 @@ abstract class Maintenance {
                 reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
             });
 
-            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.EVERYONE, { "SEND_MESSAGES": false });
-            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "SEND_MESSAGES": true });
-            await annoncementChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
+            await annoncementChannel?.permissionOverwrites.edit(Role.EVERYONE, { "SEND_MESSAGES": false });
+            await annoncementChannel?.permissionOverwrites.edit(Role.DÉLÉGUÉ, { "SEND_MESSAGES": true });
+            await annoncementChannel?.permissionOverwrites.edit(Role.ENSEIGNANT, { "SEND_MESSAGES": true });
         }
 
         if (createDocuments) {
@@ -54,9 +55,9 @@ abstract class Maintenance {
                 reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
             });
 
-            await documentChannel?.permissionOverwrites.edit(RoleIDs.EVERYONE, { "SEND_MESSAGES": false });
-            await documentChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "SEND_MESSAGES": true });
-            await documentChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
+            await documentChannel?.permissionOverwrites.edit(Role.EVERYONE, { "SEND_MESSAGES": false });
+            await documentChannel?.permissionOverwrites.edit(Role.DÉLÉGUÉ, { "SEND_MESSAGES": true });
+            await documentChannel?.permissionOverwrites.edit(Role.ENSEIGNANT, { "SEND_MESSAGES": true });
         }
 
         if (createOffreDeStage) {
@@ -67,9 +68,9 @@ abstract class Maintenance {
                 reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
             });
 
-            await offreDeStageChannel?.permissionOverwrites.edit(RoleIDs.EVERYONE, { "SEND_MESSAGES": false });
-            await offreDeStageChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "SEND_MESSAGES": true });
-            await offreDeStageChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "SEND_MESSAGES": true });
+            await offreDeStageChannel?.permissionOverwrites.edit(Role.EVERYONE, { "SEND_MESSAGES": false });
+            await offreDeStageChannel?.permissionOverwrites.edit(Role.DÉLÉGUÉ, { "SEND_MESSAGES": true });
+            await offreDeStageChannel?.permissionOverwrites.edit(Role.ENSEIGNANT, { "SEND_MESSAGES": true });
         }
 
         const discussionsChannel = await guild?.channels.create("💬・discussions", {
@@ -94,8 +95,8 @@ abstract class Maintenance {
             reason: `Création du salon demandé par ${interaction.user.username} via la commande 'setupCategorieScolaire'`
         });
 
-        await amphiChannel?.permissionOverwrites.edit(RoleIDs.ENSEIGNANT, { "MANAGE_CHANNELS": true, "MUTE_MEMBERS": true, "MOVE_MEMBERS": true });
-        await amphiChannel?.permissionOverwrites.edit(RoleIDs.DÉLÉGUÉ, { "MANAGE_CHANNELS": true, "MUTE_MEMBERS": true, "MOVE_MEMBERS": true });
+        await amphiChannel?.permissionOverwrites.edit(Role.ENSEIGNANT, { "MANAGE_CHANNELS": true, "MUTE_MEMBERS": true, "MOVE_MEMBERS": true });
+        await amphiChannel?.permissionOverwrites.edit(Role.DÉLÉGUÉ, { "MANAGE_CHANNELS": true, "MUTE_MEMBERS": true, "MOVE_MEMBERS": true });
 
         await guild?.channels.create("💻・Vocal #1", {
             type: "GUILD_VOICE",
