@@ -113,12 +113,17 @@ abstract class Role {
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId('role-other')
-                    .setPlaceholder("Non-étudiant")
+                    .setPlaceholder("Non-étudiant du département")
                     .addOptions([
                         {
-                            label: "Enseignant",
+                            label: "Enseignant du département",
                             value: "teacher",
-                            description: "Vous êtes enseignant ?"
+                            description: "Vous êtes enseignant du Département Informatique ?"
+                        },
+                        {
+                            label: "Membre de l'Université de Lorraine",
+                            value: "membreUL",
+                            description: "Vous êtes étudiant / enseignant / autre chose au sein de l'Université de Lorraine ?"
                         }
                     ])
             );
@@ -300,6 +305,9 @@ abstract class Role {
         if (!guild) { interaction.editReply({ content: `Erreur, value = ${guild}` }); return; }
 
         switch (roleValue) {
+            case 'membreUL':
+                await this.assignRole(guild, user, RoleIDs.MEMBRE_UL, interaction);
+                break;
             case 'teacher':
                 const adminChannel = (interaction.guild.channels.resolve(ChannelIDs.ADMIN_CHANNEL));
 
