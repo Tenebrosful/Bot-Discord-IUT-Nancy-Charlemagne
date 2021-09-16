@@ -1,4 +1,4 @@
-import { AwaitMessagesOptions, CategoryChannel, Channel, Collection, CommandInteraction, DMChannel, GuildChannel, Message, MessageActionRow, MessageButton, MessageEmbed, Snowflake } from "discord.js";
+import { AwaitMessagesOptions, Collection, CommandInteraction, DMChannel, GuildChannel, Message, Snowflake } from "discord.js";
 import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { allServeursIds, globalAdminPerms } from "../GlobalVar";
 
@@ -6,7 +6,7 @@ import { allServeursIds, globalAdminPerms } from "../GlobalVar";
 @Guild(...allServeursIds)
 @DefaultPermission(false)
 @Permission(...globalAdminPerms)
-@SlashGroup("maintenance", "Commandes de maintenance du serveur")
+@SlashGroup("mod", "Commandes de modération")
 abstract class Maintenance {
 
     @Slash('deleteMessages', { description: "Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut" })
@@ -75,43 +75,4 @@ abstract class Maintenance {
             interaction.editReply({ content: `Salon purgé ! ${newChannel}` });
     }
 
-    @Slash('webhook', { description: "Retourne le lien d'un webhook créé par le bot" })
-    async webhook(
-        @SlashOption("Salon", { type: "CHANNEL", required: true })
-        channel: GuildChannel | DMChannel,
-        interaction: CommandInteraction
-    ) {
-        await interaction.deferReply({ ephemeral: true });
-
-        if (channel.isThread()) { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande sur un Fil" }); return; }
-        if (channel.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé sans indiquer un salon précis." }); return; }
-        if (!channel.isText()) { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande sur un salon non-textuel." }); return; }
-
-        const webhooks = await channel.fetchWebhooks();
-
-        let webhook = webhooks.find(webhook => {
-            if (webhook.owner === null || interaction.client === null || interaction.client.user === null) return false;
-            if (!webhook.owner.bot) return false;
-            if (webhook.owner.id !== interaction.client.user.id) return false;
-            return true;
-        });
-
-        if (!webhook) {
-            webhook = await channel.createWebhook("Embeds", { reason: `Création du webhook demandé par ${interaction.user.username}` });
-        }
-
-        const embed = new MessageEmbed()
-            .setTitle("Votre webhook")
-            .setDescription(`\`${webhook.url}\``)
-            .setColor('#0080ff');
-
-        const row = new MessageActionRow()
-            .addComponents(new MessageButton()
-                .setStyle("LINK")
-                .setLabel("Ouvrir avec Discord.club (SOON)")
-                .setURL(`https://discord.club/dashboard?`)
-                .setDisabled(true));
-
-        interaction.editReply({ embeds: [embed], components: [row] })
-    }
 }
