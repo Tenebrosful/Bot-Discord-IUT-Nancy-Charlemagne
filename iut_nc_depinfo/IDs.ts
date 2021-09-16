@@ -29,7 +29,7 @@ export enum Role {
     ALTERNANT = '887692800878063706'
 }
 
-export enum Channel {
+export enum Salon {
     ADMIN_CHANNEL = '753753680334815345',
     TWITTER = '854010477838073876'
 }
