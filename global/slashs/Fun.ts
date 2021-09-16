@@ -3,7 +3,6 @@ import { DefaultPermission, Discord, Slash, SlashChoice, SlashGroup, SlashOption
 import { pfcButtons, pfcChoix, pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../libs/pfc";
 
 @Discord()
-@DefaultPermission(true)
 @SlashGroup("fun", "Commandes orienté sur l'amusement")
 abstract class Fun {
 
