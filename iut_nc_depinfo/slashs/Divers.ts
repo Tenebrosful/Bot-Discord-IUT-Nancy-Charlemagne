@@ -4,7 +4,7 @@ import { Serveur } from '../../IDs';
 import { Role } from '../IDs';
 
 @Discord()
-@Guild(Serveur.DEP_INFO)
+@Guild(Serveur.IUT_NC_DEP_INFO)
 abstract class Divers {
 
     @Slash('info', { description: "Affiche les informations du serveur" })

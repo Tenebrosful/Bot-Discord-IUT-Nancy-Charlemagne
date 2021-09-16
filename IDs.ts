@@ -1,3 +1,3 @@
 export enum Serveur {
-    DEP_INFO = "753171392450527282"
+    IUT_NC_DEP_INFO = "753171392450527282"
 }
