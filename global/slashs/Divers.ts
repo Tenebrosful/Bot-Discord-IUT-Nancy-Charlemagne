@@ -1,20 +1,19 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
-import { DefaultPermission, Discord, Slash, SlashOption } from "discordx";
+import { CommandInteraction, Message, MessageEmbed } from "discord.js";
+import { Discord, Slash, SlashOption } from "discordx";
 
 @Discord()
-@DefaultPermission(true)
-abstract class Sondage {
+abstract class Divers {
 
     @Slash('sondage', { description: "Créé un sondage" })
     async sondage(
         @SlashOption("Titre", { description: "Sujet du sondage", required: true })
-        title: string,
+        titre: string,
         @SlashOption("Description", { description: "Explications affichées en dessous" })
         desc: string,
         @SlashOption("ImageURL", { description: "Url de l'image affichée en bas du sondage" })
         imageurl: string,
         @SlashOption("VoteNeutre", { description: "Autoriser ou Interdire le vote neutre. Autorisé par défaut." })
-        allowNeutralVote: boolean = true,
+        autoriserVoteNeutre: boolean = true,
         interaction: CommandInteraction
     ) {
         await interaction.deferReply();
@@ -22,7 +21,7 @@ abstract class Sondage {
         const resEmbed = new MessageEmbed()
             .setColor("#DD131E")
             .setAuthor(interaction.user.username, (interaction.user.avatarURL({ dynamic: true }) || undefined))
-            .setTitle(title)
+            .setTitle(titre)
             .setFooter("Tu peux voter en cliquant sur les réactions en dessous")
             .setTimestamp();
 
@@ -33,16 +32,16 @@ abstract class Sondage {
 
         const reply = await interaction.fetchReply();
 
+        if (!(reply instanceof Message)) { interaction.editReply("Erreur, reply: " + reply.type); return; }
+
+        // Le processus est assez lent pour que la réponse de l'interaction soit supprimé et fasse crash le bot
         try {
-            //@ts-ignore
             await reply.react("👍");
-            //@ts-ignore
-            if (allowNeutralVote) await reply.react("🤔");
-            //@ts-ignore
+            if (autoriserVoteNeutre) await reply.react("🤔");
             await reply.react("👎");
         } catch (err) {
-            interaction.editReply("Erreur <@227882902031958016>, " + reply.type)
+            console.error(err);
+            try { interaction.editReply("Erreur, vérification des logs."); } catch (err) { console.error(err); return; }
         }
-
     }
 }
