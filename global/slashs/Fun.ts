@@ -1,5 +1,5 @@
-import { CommandInteraction, MessageActionRow, MessageButton } from "discord.js";
-import { DefaultPermission, Discord, Slash, SlashChoice, SlashGroup, SlashOption } from "discordx";
+import { CommandInteraction, MessageActionRow } from "discord.js";
+import { Discord, Slash, SlashChoice, SlashGroup, SlashOption } from "discordx";
 import { pfcButtons, pfcChoix, pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../libs/pfc";
 
 @Discord()
