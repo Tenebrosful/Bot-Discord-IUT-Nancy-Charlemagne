@@ -26,6 +26,7 @@ abstract class Info {
                         <@&${RoleIDs.DÉLÉGUÉ}> : \`${guild?.roles.resolve(RoleIDs.DÉLÉGUÉ)?.members.size}\`
                         Ancien Étudiant : \`${(guild?.roles.resolve(RoleIDs.ANCIEN_DUT)?.members.size || 0) + (guild?.roles.resolve(RoleIDs.ANCIEN_LP_CIASIE)?.members.size || 0)}\`
                         <@&${RoleIDs.ÉTUDIANT}> : \`${guild?.roles.resolve(RoleIDs.ÉTUDIANT)?.members.size}\`
+                        <@&${RoleIDs.MEMBRE_UL}> : \`${guild?.roles.resolve(RoleIDs.MEMBRE_UL)?.members.size}\`
                         <@&${RoleIDs.COMPTE_SECONDAIRE}> : \`${guild?.roles.resolve(RoleIDs.COMPTE_SECONDAIRE)?.members.size}\`
                         Total : \`${guild?.memberCount}\`
                            `,
