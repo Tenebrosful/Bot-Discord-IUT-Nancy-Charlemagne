@@ -28,8 +28,7 @@ async function start() {
             `${__dirname}/global/events/discord/*.ts`,
             `${__dirname}/iut_nc_depinfo/*/*.ts`,
             `${__dirname}/iut_nc_depinfo/events/discord/*.ts`
-        ],
-        botId: "850109914827587605"
+        ]
     });
 
     SingletonClient.once("ready", async () => {
