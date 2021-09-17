@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Intents } from 'discord.js';
 import { Client } from 'discordx';
 import 'reflect-metadata';
-import { getHorodateConsole, logInteraction, resetPresence } from './util';
+import { getHorodateConsole, logInteraction, resetPresence } from './libs/util';
 
 export let SingletonClient: Client;
 
