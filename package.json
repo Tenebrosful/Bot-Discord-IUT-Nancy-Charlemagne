@@ -6,7 +6,8 @@
   "scripts": {
     "start": "./scripts/main_bot.bash",
     "twitter": "./scripts/twitter_bot.bash",
-    "debug": "ts-node ."
+    "debug": "ts-node .",
+    "debug twitter": "ts-node twitter.ts"
   },
   "repository": {
     "type": "git",
