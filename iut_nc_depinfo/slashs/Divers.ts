@@ -28,7 +28,7 @@ abstract class Divers {
                         Ancien Étudiant : \`${(guild?.roles.resolve(Role.ANCIEN_DUT)?.members.size || 0) + (guild?.roles.resolve(Role.ANCIEN_LP_CIASIE)?.members.size || 0)}\`
                         <@&${Role.ÉTUDIANT}> : \`${guild?.roles.resolve(Role.ÉTUDIANT)?.members.size}\`
                         <@&${Role.MEMBRE_UL}> : \`${guild?.roles.resolve(Role.MEMBRE_UL)?.members.size}\`
-                        <@&${Role.COMPTE_SECONDAIRE}> : \`${guild?.roles.resolve(Role.COMPTE_SECONDAIRE)?.members.size}\`,
+                        <@&${Role.COMPTE_SECONDAIRE}> : \`${guild?.roles.resolve(Role.COMPTE_SECONDAIRE)?.members.size}\`
                         Total : \`${guild?.memberCount}\`
                            `,
                     inline: true
