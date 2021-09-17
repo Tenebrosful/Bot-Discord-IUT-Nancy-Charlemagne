@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Client } from 'discord.js';
 import * as fs from 'fs';
 import * as Twit from 'twit';
-import { getHorodateConsole, resetPresence } from './util';
+import { getHorodateConsole, resetPresence } from './libs/util';
 
 export let SingletonClient: Client;
 
