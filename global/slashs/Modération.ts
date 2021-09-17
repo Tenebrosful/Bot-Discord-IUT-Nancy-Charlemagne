@@ -7,7 +7,7 @@ import { allServeursIds, globalAdminPerms } from "../GlobalVar";
 @DefaultPermission(false)
 @Permission(...globalAdminPerms)
 @SlashGroup("mod", "Commandes de modération")
-abstract class Maintenance {
+abstract class Modération {
 
     @Slash('deleteMessages', { description: "Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut" })
     async deleteMessages(
