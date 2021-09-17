@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Client } from 'discord.js';
 import * as fs from 'fs';
 import * as Twit from 'twit';
-import { getHorodateConsole, resetPresence } from './util';
+import { getHorodateConsole, resetPresence } from './libs/util';
 
 export let SingletonClient: Client;
 
@@ -14,10 +14,10 @@ async function start() {
         consumer_secret: process.env.CONSUMER_SECRET ?? "",
         access_token: process.env.ACCESS_TOKEN ?? "",
         access_token_secret: process.env.ACCESS_TOKEN_SECRET ?? ""
-    }), SingletonClient);
+    }), SingletonClient, ["global"]);
 
     SingletonClient.on("ready", () => {
-        console.log(`${getHorodateConsole()}\tReady !`);
+        console.log(`${getHorodateConsole()}\t[INFO]\tReady !`);
 
         if (SingletonClient.user)
             resetPresence(SingletonClient.user);
@@ -28,30 +28,34 @@ async function start() {
 
 
 
-function loadTwitterEvents(Twitter: Twit, client: Client) {
-    const eventFiles = fs.readdirSync('./events/twitter').filter(file => file.endsWith('.ts'));
+function loadTwitterEvents(Twitter: Twit, client: Client, dirs: string[]) {
+    dirs.forEach(dir => {
+        const eventFiles = fs.readdirSync(`./${dir}/events/twitter`).filter(file => file.endsWith('.ts'));
 
-    for (const file of eventFiles) {
-        const event = require(`./events/twitter/${file}`);
-        let stream;
+        for (const file of eventFiles) {
+            const event = require(`./${dir}/events/twitter/${file}`);
+            let stream;
 
-        try {
-            stream = Twitter.stream(event.endPoint, event.options);
-        } catch (err) {
-            console.log(err);
+            try {
+                stream = Twitter.stream(event.endPoint, event.options);
+            } catch (err) {
+                console.log(err);
+            }
+
+            if (!stream) { console.error(`${getHorodateConsole()}\t[FAIL LOAD]\t${dir} ${file}, stream = ${stream}`); return; }
+
+            stream.on(event.name, (...args) => event.execute(...args, client));
+
+            console.log(`${getHorodateConsole()}\t[LOADED]\t${dir} ${file}`);
         }
-
-        if (!stream) { console.error(`[FAIL LOAD] ${file}, stream = ${stream}`); return; }
-
-        stream.on(event.name, (...args) => event.execute(...args, client));
-    }
+    })
 }
 
 function handleExit(signal: NodeJS.Signals) {
-    console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
+    console.info(`${getHorodateConsole()}\t[STOP]\tSignal ${signal} reçu.`);
     SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours", type: "COMPETING" }] })
     SingletonClient.destroy();
-    console.log(`${getHorodateConsole()} Arrêt du bot.`);
+    console.log(`${getHorodateConsole()}\t[STOP]\tArrêt du bot.`);
     process.exit(0);
 }
 

@@ -8,7 +8,7 @@ export function getHorodateConsole() {
 }
 
 export function logInteraction(interaction: Interaction, client: Client) {
-    let log = `${getHorodateConsole()}\t${interaction.user.username}\t${interaction.type}`
+    let log = `${getHorodateConsole()}\t${interaction.guild?.name}\t${interaction.user.username}\t${interaction.type}`
 
     if (interaction.isCommand())
         log += `\t${interaction.commandName}`;
@@ -21,6 +21,8 @@ export function logInteraction(interaction: Interaction, client: Client) {
     }
 
     if (interaction.isContextMenu()) {
+        log += `\t${interaction.commandName}`;
+
         if (interaction.targetType === "USER")
             log += `\t${client.users.resolve(interaction.targetId)?.username}`;
         else if (interaction.targetType === "MESSAGE")

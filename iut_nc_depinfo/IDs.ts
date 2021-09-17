@@ -1,4 +1,4 @@
-export enum RoleIDs {
+export enum Role {
     EVERYONE = '753171392450527282',
     STAR = '753181468183887914',
     ADMIN = '753182939352793138',
@@ -30,12 +30,7 @@ export enum RoleIDs {
     MEMBRE_UL = '887917824822083594'
 }
 
-export enum ChannelIDs{
+export enum Salon {
     ADMIN_CHANNEL = '753753680334815345',
     TWITTER = '854010477838073876'
-    
-}
-
-export enum ServerIDs {
-    MAIN = '753171392450527282'
 }

@@ -2,7 +2,7 @@ require('dotenv').config()
 import { Intents } from 'discord.js';
 import { Client } from 'discordx';
 import 'reflect-metadata';
-import { getHorodateConsole, logInteraction, resetPresence } from './util';
+import { getHorodateConsole, logInteraction, resetPresence } from './libs/util';
 
 export let SingletonClient: Client;
 
@@ -24,15 +24,16 @@ async function start() {
             Intents.FLAGS.GUILD_BANS,
         ],
         classes: [
-            `${__dirname}/commands/*.ts`,
-            `${__dirname}/events/discord/*.ts`
-        ],
-        botId: "850109914827587605"
+            `${__dirname}/global/*/*.ts`,
+            `${__dirname}/global/events/discord/*.ts`,
+            `${__dirname}/iut_nc_depinfo/*/*.ts`,
+            `${__dirname}/iut_nc_depinfo/events/discord/*.ts`
+        ]
     });
 
     SingletonClient.once("ready", async () => {
         await SingletonClient.initApplicationCommands();
-        console.log(`${getHorodateConsole()}\tReady !`);
+        console.log(`${getHorodateConsole()}\t[INFO]\tReady !`);
 
         if (SingletonClient.user)
             resetPresence(SingletonClient.user);
@@ -47,10 +48,10 @@ async function start() {
 }
 
 function handleExit(signal: NodeJS.Signals) {
-    console.info(`${getHorodateConsole()} Signal ${signal} reçu.`);
+    console.info(`${getHorodateConsole()}\t[STOP]\tSignal ${signal} reçu.`);
     SingletonClient.user?.setPresence({ status: "idle", activities: [{ name: "Arrêt en cours", type: "COMPETING" }] })
     SingletonClient.destroy();
-    console.log(`${getHorodateConsole()} Arrêt du bot.`);
+    console.log(`${getHorodateConsole()}\t[STOP]\tArrêt du bot.`);
     process.exit(0);
 }
 
