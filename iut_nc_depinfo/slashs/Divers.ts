@@ -1,5 +1,5 @@
 import { CommandInteraction, MessageEmbed } from 'discord.js';
-import { Discord, Guild, Slash } from 'discordx';
+import { Discord, Guild, Slash, SlashOption } from 'discordx';
 import { Serveur } from '../../IDs';
 import { Role } from '../IDs';
 
@@ -8,9 +8,12 @@ import { Role } from '../IDs';
 abstract class Divers {
 
     @Slash('info', { description: "Affiche les informations du serveur" })
-    private async info(interaction: CommandInteraction) {
+    private async info(
+        @SlashOption("visibleParTous", { description: "Est-ce que la réponse doit être visible par tout le monde ? (Faux par défaut)" })
+        isVisible: boolean = false,
+        interaction: CommandInteraction) {
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: !isVisible });
 
         const guild = interaction.guild;
 
