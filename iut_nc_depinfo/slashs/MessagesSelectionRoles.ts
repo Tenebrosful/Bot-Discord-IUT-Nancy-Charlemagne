@@ -1,12 +1,12 @@
 import { CommandInteraction, MessageActionRow, MessageSelectMenu } from 'discord.js';
-import { DefaultPermission, Discord, Guild as Guildx, Permission, Slash, SlashGroup } from 'discordx';
+import { Discord, Guild as Guildx, Permission, Slash, SlashGroup } from 'discordx';
 import { Serveur } from "../../IDs";
 import { Role } from '../IDs';
 import { RoleAlternantCIASIEOptions, RolesAncienOptions, RolesAutreOptions, RolesBUT1AOptions, RolesDUT2AOptions, RolesLPOptions } from '../selectMenus/Roles';
 
 @Discord()
 @Guildx(Serveur.IUT_NC_DEP_INFO) // Alias @Guild due to import name conflict
-@DefaultPermission(false)
+@Permission(false)
 @Permission({ id: Role.ADMIN, type: 'ROLE', permission: true })
 @Permission({ id: Role.STAR, type: 'ROLE', permission: true })
 @SlashGroup("messageSelectionRoles", "Commandes ayant pour effet d'envoyer des messages permettant de choisir des rôles")

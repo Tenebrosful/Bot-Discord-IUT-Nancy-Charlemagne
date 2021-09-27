@@ -1,11 +1,11 @@
 import { CategoryChannel, Channel, CommandInteraction } from "discord.js";
-import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
+import { Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { Serveur } from "../../IDs";
 import { Role } from "../IDs";
 
 @Discord()
 @Guild(Serveur.IUT_NC_DEP_INFO)
-@DefaultPermission(false)
+@Permission(false)
 @Permission({ id: Role.ADMIN, type: 'ROLE', permission: true })
 @Permission({ id: Role.STAR, type: 'ROLE', permission: true })
 @SlashGroup("maintenance", "Commandes de maintenance du serveur")

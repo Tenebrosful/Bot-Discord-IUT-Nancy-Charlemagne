@@ -1,10 +1,10 @@
 import { AwaitMessagesOptions, Collection, CommandInteraction, DMChannel, GuildChannel, Message, Snowflake } from "discord.js";
-import { DefaultPermission, Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
+import { Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { allServeursIds, globalAdminPerms } from "../GlobalVar";
 
 @Discord()
 @Guild(...allServeursIds)
-@DefaultPermission(false)
+@Permission(false)
 @Permission(...globalAdminPerms)
 @SlashGroup("mod", "Commandes de modération")
 abstract class Modération {

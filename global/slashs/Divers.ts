@@ -1,5 +1,5 @@
 import { CommandInteraction, DMChannel, GuildChannel, Message, MessageActionRow, MessageButton, MessageEmbed, VoiceChannel } from "discord.js";
-import { DefaultPermission, Discord, Guild, Permission, Slash, SlashOption } from "discordx";
+import { Discord, Guild, Permission, Slash, SlashOption } from "discordx";
 import { allServeursIds, globalAdminPerms, globalEnseignantPerms } from "../GlobalVar";
 
 @Discord()
@@ -89,7 +89,7 @@ abstract class Divers {
     }
 
     @Guild(...allServeursIds)
-    @DefaultPermission(false)
+    @Permission(false)
     @Permission(...globalAdminPerms)
     @Permission(...globalEnseignantPerms)
     @Slash('groupevocal', { description: "Crée un ou plusieurs salons vocaux temporaire dans cette catégorie (1 salon pendant 60m par défaut)" })
