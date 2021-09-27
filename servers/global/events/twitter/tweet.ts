@@ -1,6 +1,6 @@
 import { Client, MessageActionRow, MessageButton, MessageEmbed, MessageOptions } from 'discord.js';
 import * as Twit from 'twit';
-import { getHorodateConsole } from '../../../libs/util';
+import { getHorodateConsole } from '../../../../libs/util';
 import { followTwitter, salonIdPostTwitter } from '../../GlobalVar';
 
 module.exports = {

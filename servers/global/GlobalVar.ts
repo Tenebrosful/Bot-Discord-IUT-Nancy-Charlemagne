@@ -1,5 +1,5 @@
 import { ApplicationCommandPermissionData, ChannelResolvable } from "discord.js";
-import { Serveur } from "../IDs";
+import { RoleBeta, Serveur } from "../../IDs";
 import { Role as Role_IUT_NC_DEPINFO } from "../iut_nc_depinfo/IDs";
 
 export const globalAdminPerms: ApplicationCommandPermissionData[] = [

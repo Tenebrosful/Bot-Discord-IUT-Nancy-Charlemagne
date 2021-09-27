@@ -1,6 +1,6 @@
 import { CommandInteraction, MessageActionRow } from "discord.js";
 import { Discord, Slash, SlashChoice, SlashGroup, SlashOption } from "discordx";
-import { pfcButtons, pfcChoix, pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../libs/pfc";
+import { pfcButtons, pfcChoix, pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../../libs/pfc";
 
 @Discord()
 @SlashGroup("fun", "Commandes orienté sur l'amusement")

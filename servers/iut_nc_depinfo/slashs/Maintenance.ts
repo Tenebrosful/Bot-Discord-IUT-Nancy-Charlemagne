@@ -1,6 +1,6 @@
 import { CategoryChannel, Channel, CommandInteraction } from "discord.js";
 import { Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
-import { Serveur } from "../../IDs";
+import { Serveur } from "../../../IDs";
 import { Role } from "../IDs";
 
 @Discord()

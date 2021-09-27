@@ -1,6 +1,6 @@
 import { ButtonInteraction } from "discord.js";
 import { ButtonComponent, Discord } from "discordx";
-import { pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../libs/pfc";
+import { pfcIsWin, pfcPlayBot, pfcProposition, pfcTraitementResultat } from "../../../libs/pfc";
 
 @Discord()
 abstract class Pfc {
