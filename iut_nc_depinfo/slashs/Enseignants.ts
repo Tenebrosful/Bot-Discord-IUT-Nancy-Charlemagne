@@ -40,6 +40,7 @@ abstract class Enseignants {
 
         const linkTo = new MessageActionRow()
             .addComponents(new MessageButton()
+                .setLabel("Aller vers le salon")
                 .setStyle('LINK')
                 .setURL(`https://discord.com/channels/${guild?.id}/${newChannel?.id}`))
 
