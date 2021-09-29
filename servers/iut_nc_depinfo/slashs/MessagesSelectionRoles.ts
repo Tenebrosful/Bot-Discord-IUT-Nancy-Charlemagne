@@ -1,6 +1,6 @@
 import { CommandInteraction, MessageActionRow, MessageSelectMenu } from 'discord.js';
 import { Discord, Guild as Guildx, Permission, Slash, SlashGroup } from 'discordx';
-import { Serveur } from "../../IDs";
+import { Serveur } from "../../../IDs";
 import { Role } from '../IDs';
 import { RoleAlternantCIASIEOptions, RolesAncienOptions, RolesAutreOptions, RolesBUT1AOptions, RolesDUT2AOptions, RolesLPOptions } from '../selectMenus/Roles';
 

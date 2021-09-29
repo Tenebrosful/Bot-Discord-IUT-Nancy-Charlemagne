@@ -1,7 +1,7 @@
 import { CategoryChannel, Channel, CommandInteraction, MessageActionRow, MessageButton } from "discord.js";
 import { Discord, Guild, Permission, Slash, SlashGroup, SlashOption } from "discordx";
 import { globalAdminPerms } from "../../global/GlobalVar";
-import { Serveur } from "../../IDs";
+import { Serveur } from "../../../IDs";
 import { Role } from "../IDs";
 
 @Discord()
