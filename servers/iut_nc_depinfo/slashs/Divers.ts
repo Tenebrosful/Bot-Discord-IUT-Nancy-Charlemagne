@@ -9,7 +9,7 @@ abstract class Divers {
 
     @Slash('info', { description: "Affiche les informations du serveur" })
     private async info(
-        @SlashOption("visibleParTous", { description: "Est-ce que la réponse doit être visible par tout le monde ? (Faux par défaut)" })
+        @SlashOption("visiblepartous", { description: "Est-ce que la réponse doit être visible par tout le monde ? (Faux par défaut)" })
         isVisible: boolean = false,
         interaction: CommandInteraction) {
 

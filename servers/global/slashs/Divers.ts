@@ -7,13 +7,13 @@ abstract class Divers {
 
     @Slash('sondage', { description: "Créé un sondage" })
     async sondage(
-        @SlashOption("Titre", { description: "Sujet du sondage", required: true })
+        @SlashOption("titre", { description: "Sujet du sondage", required: true })
         titre: string,
-        @SlashOption("Description", { description: "Explications affichées en dessous" })
+        @SlashOption("description", { description: "Explications affichées en dessous" })
         desc: string,
-        @SlashOption("ImageURL", { description: "Url de l'image affichée en bas du sondage" })
+        @SlashOption("imageurl", { description: "Url de l'image affichée en bas du sondage" })
         imageurl: string,
-        @SlashOption("VoteNeutre", { description: "Autoriser ou Interdire le vote neutre. Autorisé par défaut." })
+        @SlashOption("voteneutre", { description: "Autoriser ou Interdire le vote neutre. Autorisé par défaut." })
         autoriserVoteNeutre: boolean = true,
         interaction: CommandInteraction
     ) {
@@ -48,7 +48,7 @@ abstract class Divers {
 
     @Slash('webhook', { description: "Retourne le lien d'un webhook créé par le bot" })
     async webhook(
-        @SlashOption("Salon", { type: "CHANNEL", required: true })
+        @SlashOption("salon", { type: "CHANNEL", required: true })
         channel: GuildChannel | DMChannel,
         interaction: CommandInteraction
     ) {
