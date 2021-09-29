@@ -9,7 +9,7 @@ import { allServeursIds, globalAdminPerms } from "../GlobalVar";
 @SlashGroup("mod", "Commandes de modération")
 abstract class Modération {
 
-    @Slash('deleteMessages', { description: "Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut" })
+    @Slash('deletemessages', { description: "Supprime les derniers messages envoyés il y a moins de 2 semaines. Supprime 100 messages par défaut" })
     async deleteMessages(
         @SlashOption('nombre', { description: "Nombre de message à effacer" })
         amount: number,
@@ -57,7 +57,7 @@ abstract class Modération {
         interaction.reply({ content: replyMessage })
     }
 
-    @Slash('purgeChannel', { description: "Clone et supprime le salon afin de supprimer son contenu" })
+    @Slash('purgechannel', { description: "Clone et supprime le salon afin de supprimer son contenu" })
     async purgeChannel(
         @SlashOption("channel", { description: "Salon à purger. Salon actuel par défaut", type: "CHANNEL", required: true })
         channel: GuildChannel | DMChannel,

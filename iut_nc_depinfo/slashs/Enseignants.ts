@@ -13,7 +13,7 @@ import { Role } from "../IDs";
 abstract class Enseignants {
 
     @Permission({ id: Role.DÉLÉGUÉ, type: "ROLE", permission: true })
-    @Slash("creerSalonCours", { description: "Permet de créer un salon textuel prévus pour un cours particulier" })
+    @Slash("creersaloncours", { description: "Permet de créer un salon textuel prévus pour un cours particulier" })
     async creerSalonCours(
         @SlashOption("categorie", { description: "Catégorie à affecter", required: true, type: "CHANNEL" })
         categoryParam: Channel,

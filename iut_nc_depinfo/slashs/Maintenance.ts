@@ -11,15 +11,15 @@ import { Role } from "../IDs";
 @SlashGroup("maintenance", "Commandes de maintenance du serveur")
 abstract class Maintenance {
 
-    @Slash("setupCategorieScolaire", { description: "Créé les salons basiques communs des catégories scolaires" })
+    @Slash("setupcategoriescolaire", { description: "Créé les salons basiques communs des catégories scolaires" })
     async setupCategorieScolaire(
         @SlashOption("categorie", { description: "ID de la catégorie à affecter", required: true, type: "CHANNEL" })
         categoryParam: Channel,
-        @SlashOption("createAnnonces", { description: "Voulez-vous créer le salon '📢・annonces' ?" })
+        @SlashOption("createannonces", { description: "Voulez-vous créer le salon '📢・annonces' ?" })
         createAnnonces: boolean = false,
-        @SlashOption("createDocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
+        @SlashOption("createdocuments", { description: "Voulez-vous créer le salon '📚・documents' ?" })
         createDocuments: boolean = false,
-        @SlashOption("createOffreDeStage", { description: "Voulez-vous créer le salon '📬・offres-de-stage' ?" })
+        @SlashOption("createoffredestage", { description: "Voulez-vous créer le salon '📬・offres-de-stage' ?" })
         createOffreDeStage: boolean = false,
         interaction: CommandInteraction
     ) {

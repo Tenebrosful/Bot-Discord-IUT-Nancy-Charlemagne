@@ -9,7 +9,7 @@ abstract class Fun {
     @Slash("pfc", { description: "Quoi de plus amusant que jouer à Pierre Feuille Ciseaux avec un robot ?" })
     async pfc(
         @SlashChoice(pfcChoix)
-        @SlashOption("Choix", { description: "Que voulez-vous jouer ?" })
+        @SlashOption("choix", { description: "Que voulez-vous jouer ?" })
         choix: pfcChoix,
         interaction: CommandInteraction
     ) {

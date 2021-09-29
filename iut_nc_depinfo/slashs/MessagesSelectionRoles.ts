@@ -9,7 +9,7 @@ import { RoleAlternantCIASIEOptions, RolesAncienOptions, RolesAutreOptions, Role
 @Permission(false)
 @Permission({ id: Role.ADMIN, type: 'ROLE', permission: true })
 @Permission({ id: Role.STAR, type: 'ROLE', permission: true })
-@SlashGroup("messageSelectionRoles", "Commandes ayant pour effet d'envoyer des messages permettant de choisir des rôles")
+@SlashGroup("messageselectionroles", "Commandes ayant pour effet d'envoyer des messages permettant de choisir des rôles")
 abstract class MessagesSelectionRoles {
 
     @Slash('principaux', { description: "Envoie le message permettant d'obtenir les rôles principaux" })
@@ -72,7 +72,7 @@ abstract class MessagesSelectionRoles {
         }
     }
 
-    @Slash('alternantLP', { description: "Envoie le message permettant d'obtenir le rôle alternant pour la LP CIASIE" })
+    @Slash('alternanlp', { description: "Envoie le message permettant d'obtenir le rôle alternant pour la LP CIASIE" })
     async messageRoleAlternant(interaction: CommandInteraction) {
         await interaction.deferReply({ ephemeral: true });
 
