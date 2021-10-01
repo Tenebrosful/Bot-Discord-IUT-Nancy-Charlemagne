@@ -15,10 +15,10 @@ abstract class Enseignants {
     @Permission({ id: Role.DÉLÉGUÉ, type: "ROLE", permission: true })
     @Slash("creersaloncours", { description: "Permet de créer un salon textuel prévus pour un cours particulier" })
     async creerSalonCours(
-        @SlashOption("categorie", { description: "Catégorie à affecter", type: "CHANNEL" })
-        categoryParam: Channel,
         @SlashOption("nom", { description: "Nom du cours", required: true })
         name: string,
+        @SlashOption("categorie", { description: "Catégorie à affecter", type: "CHANNEL" })
+        categoryParam: Channel,
         interaction: CommandInteraction
     ) {
         await interaction.deferReply({ ephemeral: true });
