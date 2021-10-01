@@ -15,7 +15,7 @@ abstract class Enseignants {
     @Permission({ id: Role.DÉLÉGUÉ, type: "ROLE", permission: true })
     @Slash("creersaloncours", { description: "Permet de créer un salon textuel prévus pour un cours particulier" })
     async creerSalonCours(
-        @SlashOption("categorie", { description: "Catégorie à affecter", required: true, type: "CHANNEL" })
+        @SlashOption("categorie", { description: "Catégorie à affecter", type: "CHANNEL" })
         categoryParam: Channel,
         @SlashOption("nom", { description: "Nom du cours", required: true })
         name: string,
@@ -25,12 +25,14 @@ abstract class Enseignants {
 
         if (interaction.channel?.type === "DM") { interaction.editReply({ content: "❌ Désolé mais je ne peux pas effectuer cette commande en message privé." }); return; }
 
-        if (categoryParam?.type !== "GUILD_CATEGORY") { interaction.editReply({ content: "❌ Cela ne s'agit pas d'une catégorie." }); return; }
+        if (categoryParam && categoryParam?.type !== "GUILD_CATEGORY") { interaction.editReply({ content: "❌ Cela ne s'agit pas d'une catégorie." }); return; }
+
+        if (!categoryParam && !interaction.channel?.parent) { interaction.editReply({ content: "❌ Vous devez être dans un salon avec une catégorie si aucune catégorie n'est précisée." }); return; }
 
         interaction.editReply({ content: `Salons en cours de création...` });
 
         const guild = interaction.guild;
-        const category = <CategoryChannel>categoryParam;
+        const category = <CategoryChannel>categoryParam ?? interaction.channel?.parent;
 
         const newChannel = await guild?.channels.create(`🎓・${name}`, {
             type: "GUILD_TEXT",
