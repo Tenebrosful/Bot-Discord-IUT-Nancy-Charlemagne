@@ -24,10 +24,10 @@ async function start() {
             Intents.FLAGS.GUILD_BANS,
         ],
         classes: [
-            `${__dirname}/global/*/*.ts`,
-            `${__dirname}/global/events/discord/*.ts`,
-            `${__dirname}/iut_nc_depinfo/*/*.ts`,
-            `${__dirname}/iut_nc_depinfo/events/discord/*.ts`
+            `${__dirname}/servers/global/*/*.ts`,
+            `${__dirname}/servers/global/events/discord/*.ts`,
+            `${__dirname}/servers/iut_nc_depinfo/*/*.ts`,
+            `${__dirname}/servers/iut_nc_depinfo/events/discord/*.ts`
         ]
     });
 

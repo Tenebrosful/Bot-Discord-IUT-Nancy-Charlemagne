@@ -14,7 +14,7 @@ async function start() {
         consumer_secret: process.env.CONSUMER_SECRET ?? "",
         access_token: process.env.ACCESS_TOKEN ?? "",
         access_token_secret: process.env.ACCESS_TOKEN_SECRET ?? ""
-    }), SingletonClient, ["global"]);
+    }), SingletonClient, ["servers/global"]);
 
     SingletonClient.on("ready", () => {
         console.log(`${getHorodateConsole()}\t[INFO]\tReady !`);

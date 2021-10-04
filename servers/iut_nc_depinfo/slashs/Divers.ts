@@ -1,6 +1,6 @@
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { Discord, Guild, Slash, SlashOption } from 'discordx';
-import { Serveur } from '../../IDs';
+import { Serveur } from '../../../IDs';
 import { Role } from '../IDs';
 
 @Discord()
